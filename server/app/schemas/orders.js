@@ -5,52 +5,33 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const orderSchema = new Schema({
-    contractNo: {
+    orderNo: {
         unique: true,
-        type: String//合同号
+        type: String//订单号
     },
-    sales: {
-        type: ObjectId,
-        ref: 'User'
+    orderTime: {
+        type: Date,
+        defalut: Date.now()
     },
-    client:{
-        type: ObjectId,
-        ref: 'Client'
-    },
-    clientType:{
-        type: ObjectId,
-        ref: 'ClientType'
-    },
-    orderDate:{
-        type: Date
-    },
-    purchasing:Number, //购买次数
-    product:{
+    orderStatus:String,
+    orderPrice:String,
+    orderCertificate:Array,//交易凭证
+    product: {
         type: ObjectId,
         ref: 'Product'
     },
-    receivables:Number, //应收款
-    billingDate:{
-        type: Date //开票日期
-    },
-    actuallyArrived:Number,//实际到账
-    paymentDate:{
-        type: Date//收款日期
-    },
-    production:String,//生产下单
-    followUpType:{
+    productCatalog: {
         type: ObjectId,
-        ref: 'OrderType' //跟单类型
+        ref: 'ProductCatalog'
     },
-    shipDate:{
-        type: Date //发货日期
+    supplierCompanyName:{
+        type: ObjectId,
+        ref: 'Suppliers' //供应商
     },
-    arrivalDate:{
-        type: Date //到货日期
+    buyerCompanyName:{
+        type: ObjectId,
+        ref: 'Buyers' //采购商
     },
-    waybillNumber:String,//运单号
-    shipping:Number,//运费
-    courierCompany:String,//快递公司
     createdAt: {
         type: Date,
         defalut: Date.now()

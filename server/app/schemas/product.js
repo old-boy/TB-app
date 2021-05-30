@@ -9,9 +9,20 @@ const ProductSchema = new mongoose.Schema({
         unique: true,
         type: String
     },
-    productNum:Number,
-    productGroup:String,
+    productCatalog: {
+        type: ObjectId,
+        ref: 'ProductCatalog'
+    },
+    productMainPicture:String,
     productPrice:Number,
+    productTotal:Number,
+    productSalesTotal:Number,
+    productStatus:String,
+    productOrigin:String,//产地
+    brandName:{
+        type: ObjectId,
+        ref: 'Brand' //品牌
+    },
     createdAt: {
         type: Date,
         defalut: Date.now()

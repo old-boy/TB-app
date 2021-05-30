@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var orderSchema = require('./../schemas/order')
+var orderSchema = require('./../schemas/orders')
 
 var Order = mongoose.model('Order', orderSchema)
 

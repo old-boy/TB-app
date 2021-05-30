@@ -13,6 +13,8 @@ router.get('/', (req, res, next) => {
 	Product.find({})
 		.sort({'_id':-1})
 		.limit(10)
+        .populate('ProductCatalog','productCatalog')
+        .populate('Brand','brandName brandDescription')
 		.exec()
 		.then((product) => {
 			if (product) {
@@ -55,12 +57,18 @@ router.get('/:productName',(req,res,next) => {
     })
 })
 
-//新增tag
+//新增
 router.post('/add',(req,res,next) => {
     const productName = req.body.productName,
-          productNum = req.body.productNum,
-          productGroup = req.body.productGroup,
-          productPrice = req.body.productPrice;
+    productCatalog = req.body.productCatalog,
+    productMainPicture = req.body.productMainPicture,
+    productPrice = req.body.productPrice,
+    productTotal = req.body.productTotal,
+    productSalesTotal = req.body.productSalesTotal,
+    productStatus = req.body.productStatus,
+    productOrigin = req.body.productOrigin,
+    brandName = req.body.brandName;
+
 
        Product.findOne({productName:req.body.productName}).then((product)　=> {
         if(product){
@@ -73,10 +81,15 @@ router.post('/add',(req,res,next) => {
 			);
         }else{
             let newProduct = {
-                productName,
-                productNum,
-                productGroup,
-                productPrice
+                productCatalog,
+                productMainPicture,
+                productTotal,
+                productPrice,
+                productTotal,
+                productSalesTotal,
+                productStatus,
+                productOrigin,
+                brandName
             };
 
             let productEntity = new Product(newProduct)
