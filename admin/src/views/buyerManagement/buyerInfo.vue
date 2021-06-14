@@ -1,8 +1,8 @@
 <template>
-  <div class="carousel app-container">
+  <div class="buyer app-container">
     <el-row class="top-options">
       <el-col :span="12" class="title">
-        轮播图
+        采购商员工
       </el-col>
       <el-col :span="1" :offset="10" class="options">
         <el-button @click="addModal" type="success" size="mini">添加</el-button>
@@ -17,18 +17,10 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="carouselName" label="标题">
-      </el-table-column>
-      <el-table-column
-        prop="carouselThumbnail"
-        label="缩略图"
-      ></el-table-column>
-      <el-table-column
-        prop="carouselPosition"
-        label="跳转位置"
-      ></el-table-column>
-      <el-table-column prop="carouselUrl" label="产品链接"></el-table-column>
-      <el-table-column prop="carouselStatus" label="状态"></el-table-column>
+      <el-table-column prop="buyerAvatar" label="采购员头像"></el-table-column>
+      <el-table-column prop="buyerName" label="采购员姓名"></el-table-column>
+      <el-table-column prop="buyerTel" label="采购员电话"></el-table-column>
+      <el-table-column prop="buyerEmail" label="采购员邮箱"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -51,7 +43,7 @@
 </template>
 <script>
 export default {
-  name: "Carousel",
+  name: "BuyerInfo",
   data() {
     return {
       tableData: [],

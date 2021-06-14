@@ -1,10 +1,10 @@
 <template>
-      <div class="features app-container">
+      <div class="audit app-container">
             <router-view />
       </div>
 </template>
 <script>
 export default {
-      name:'Features'
+      name:'Audit'
 }
 </script>

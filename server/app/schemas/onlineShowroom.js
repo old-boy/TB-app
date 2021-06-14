@@ -11,9 +11,9 @@ const onlineShowroomSchema = new Schema({
     },
     showroomThumbnail: String,
     showroomStatus:String,
-    supplierStaffName:{
+    operator:{
         type: ObjectId,
-        ref: 'Users' //供应商员工
+        ref: 'Users' //操作人
     },
     productNum:{
         type: ObjectId,

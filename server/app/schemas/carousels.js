@@ -1,3 +1,12 @@
+/**轮播图
+ * 标题
+ * 缩略图
+ * 跳转位置
+ * 产品链接
+ * 状态
+ * 操作人
+ */
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 

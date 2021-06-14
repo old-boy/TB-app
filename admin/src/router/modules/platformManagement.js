@@ -14,14 +14,14 @@ const platformRouter = {
           path: 'carousel',
           component: () => import('@/views/platformManagement/carousel'),
           name: 'Carousel',
-          meta: { title: '轮播图', noCache: true }
+          meta: { title: '轮播图', noCache: true,icon:'el-icon-money' }
         },
         {
           path: 'features',
-          component: () => import('@/views/platformManagement/features/index'), // Parent router-view
+          component: () => import('@/views/platformManagement/features'), // Parent router-view
           name: 'Features',
-          meta: { title: '功能区' },
-          // redirect: '/features/onlineShowroom/index',
+          meta: { title: '功能区',icon:'el-icon-guide' },
+          redirect: '/platformManagement/features/onlineShowroom/index',
           children: [
             {
               path: 'online-showroom',
@@ -56,23 +56,36 @@ const platformRouter = {
           ]
         },
         {
-          path: 'user/authority',
-          component: () => import('@/views/platformManagement/userAuthority'),
-          name: 'UserAuthority',
-          meta: { title: '用户权限', noCache: true }
+          path: '/authority',
+          component: () => import('@/views/platformManagement/audit'), // Parent router-view
+          redirect: '/platformManagement/audit/supplyAudit',
+          name: 'Audit',
+          meta: {
+            title: '用户审核',
+            role: ['admin'],
+            icon:'el-icon-set-up'
+          },
+          children: [
+              {
+                path: 'supply',
+                component: () => import('@/views/platformManagement/audit/supplyAudit/index'),
+                name: 'SupplyAudit',
+                meta: { title: '供应商审核', noCache: true }
+              },
+              {
+                path: 'buyer',
+                component: () => import('@/views/platformManagement/audit/buyerAudit/index'),
+                name: 'BuyerAudit',
+                meta: { title: '采购商审核', noCache: true }
+              }
+            ]
         },
         {
-            path: 'user/audit',
-            component: () => import('@/views/platformManagement/userAudit'),
-            name: 'UserAudit',
-            meta: { title: '用户审核', noCache: true }
-          },
-          {
-            path: 'supply/management',
-            component: () => import('@/views/platformManagement/supplyManagement'),
-            name: 'SupplyManagement',
-            meta: { title: '找货源管理', noCache: true }
-          }
+          path: 'supply/management',
+          component: () => import('@/views/platformManagement/supplyManagement'),
+          name: 'SupplyManagement',
+          meta: { title: '找货源管理', noCache: true,icon:'el-icon-sold-out' }
+        }
       ]
 }
 

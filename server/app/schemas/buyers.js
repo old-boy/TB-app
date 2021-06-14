@@ -1,28 +1,22 @@
+/**采购商表
+ * 采购商公司名称
+ * 采购商公司地址
+ * 采购商公司电话
+ * 关联采购商采购员工基本信息表
+ */
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-
-// 获取ObjectId,populate需用到，用于表与表的关联
 const ObjectId = Schema.Types.ObjectId
 
 const buyerSchema = new Schema({
-    invitationCode: {
-        unique: true,
-        type:String //邀请码
-    },
-    invitationPeople: {
-        type: ObjectId,
-        ref: 'Users' //邀请人
-    },
-    supplierCompanyName:{
-        type: ObjectId,
-        ref: 'Suppliers' //供应商
-    },
-    buyerStaffInfo: {
-        type: ObjectId,
-        ref: 'BuyerInfo' //Info
-    },
-    buyerLogo:String,
     buyerCompanyName:String,
+    buyerCompanyAddres:String,
+    buyerCompanyTel:String,
+    buyerInfo: {
+        type: ObjectId,
+        ref: 'BuyerInfo' //采购商人员基本信息表
+    },
     createdAt: {
         type: Date,
         defalut: Date.now()

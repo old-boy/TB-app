@@ -1,8 +1,8 @@
 <template>
-  <div class="carousel app-container">
+  <div class="buyer app-container">
     <el-row class="top-options">
       <el-col :span="12" class="title">
-        轮播图
+        采购商审核
       </el-col>
       <el-col :span="1" :offset="10" class="options">
         <el-button @click="addModal" type="success" size="mini">添加</el-button>
@@ -17,18 +17,13 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="carouselName" label="标题">
-      </el-table-column>
-      <el-table-column
-        prop="carouselThumbnail"
-        label="缩略图"
-      ></el-table-column>
-      <el-table-column
-        prop="carouselPosition"
-        label="跳转位置"
-      ></el-table-column>
-      <el-table-column prop="carouselUrl" label="产品链接"></el-table-column>
-      <el-table-column prop="carouselStatus" label="状态"></el-table-column>
+      <el-table-column prop="companyName" label="公司名称"> </el-table-column>
+      <el-table-column prop="contact" label="联系人"></el-table-column>
+      <el-table-column prop="tel" label="联系电话"></el-table-column>
+      <el-table-column prop="email" label="联系人邮箱"></el-table-column>
+      <el-table-column prop="qualification" label="相关资质"></el-table-column>
+      <el-table-column prop="invitationCode" label="邀请码"></el-table-column>
+      <el-table-column prop="statue" label="状态"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -51,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "Carousel",
+  name: "BuyerAudit",
   data() {
     return {
       tableData: [],

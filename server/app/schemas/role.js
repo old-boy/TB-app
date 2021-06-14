@@ -1,4 +1,7 @@
-// 用户角色
+/**用户权限
+ * 角色名称
+ * 角色码
+ */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId

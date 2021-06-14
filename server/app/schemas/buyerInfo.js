@@ -1,3 +1,11 @@
+/**采购商人员信息表
+ * 头像
+ * 姓名
+ * 电话
+ * 邮箱
+ * 地址
+ * 关联采购商名称
+ */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -5,11 +13,8 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const buyerInfoSchema = new Schema({
-    buyerName: {
-        type: ObjectId,
-        ref: 'Users' //采购商名称
-    },
     buyerAvatar:String,
+    buyerName:String,
     buyerTel:String,
     buyerEmail:String,
     buyerAddress:String,
