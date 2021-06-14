@@ -5,10 +5,12 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cors = require('cors')
 
 var index = require('./routes/index')
 var users = require('./routes/users')
+var userRole = require('./routes/userRole')
 var brands = require('./routes/brand')
 var appApplication = require('./routes/appApplication')
 var faqs = require('./routes/faq')
@@ -23,7 +25,7 @@ var suppliersReview = require('./routes/suppliersReview') //供应商审核
 var suppliers = require('./routes/suppliers')
 var buyers = require('./routes/buyers')
 var buyerInfo = require('./routes/buyerInfo')
-var business = require('./routes/business')
+var business = require('./routes/business')  
 var productCatalog = require('./routes/productCatalog')
 var orders = require('./routes/order')
 var products = require('./routes/product')
@@ -31,10 +33,20 @@ var products = require('./routes/product')
 
 var app = express()
 
+
+//设置跨域访问
+// app.all('*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//   res.header("X-Powered-By",' 3.2.1')
+//   res.header("Content-Type", "application/json;charset=utf-8");
+//   next();
+// });
+
 var mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise
-// mongoose.connect('mongodb://127.0.0.1:27017/blog')
 // db
 const dburl = "mongodb://localhost:27017/shop";
 
@@ -80,8 +92,11 @@ app.set('view engine', 'jade')
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+
+//设置请求头的最大值，因为vue  post 提效时携带token 超出限制报 431
+//express.json()  express.urlencoded 替换 已经被废弃掉的body-parser
+app.use(express.json({limit:'100mb'}));
+app.use(express.urlencoded({ limit:'100mb', extended: true }));
 app.use(cookieParser('ordersecrettoken'))
 app.use(session({
   secret: 'ordersecrettoken',
@@ -89,7 +104,7 @@ app.use(session({
     maxAge: 24 * 3600 * 1000 * 7
   },
   store: new MongoStore({
-    url: 'mongodb://127.0.0.1:27017/blog'
+    url: 'mongodb://127.0.0.1:27017/shop'
   }),
   resave: false,
   saveUninitialized: false
@@ -110,8 +125,11 @@ app.use(express.static(path.join(__dirname, 'public')))
   }
 }) */
 
+app.use(cors())
+
 app.use('/', index)
-app.use('/user', users)
+app.use('/api/user', users)
+app.use('/api/user/role',userRole)
 app.use('/brand',brands)
 app.use('/app/application',appApplication)
 app.use('/faq', faqs)
@@ -122,14 +140,16 @@ app.use('/chat',chats)
 app.use('/customer',customers)
 app.use('/online/showroom',onlineShowrooms)
 app.use('/carousel',carousels)
-app.use('./supplier/review',suppliersReview)
-app.use('./buyer',buyers)
+app.use('/supplier/review',suppliersReview)
+app.use('/buyer',buyers)
 app.use('/buyerInfo', buyerInfo)
-app.use('/business',business)
-app.use('./product/catalog', productCatalog)
-app.use('./supplier',suppliers)
+app.use('/api/business',business)
+app.use('/product/catalog', productCatalog)
+app.use('/supplier',suppliers)
 app.use('/order',orders)
 app.use('/product',products)
+
+
 
 
 // catch 404 and forward to error handler
@@ -151,7 +171,8 @@ app.use(function(err, req, res, next) {
 })
 
 
-const server = app.listen(port, 'localhost', () => {
+
+const server = app.listen(port, '192.168.31.182', () => {
   const host = server.address().address
   const port = server.address().port
   console.log("server started! 访问地址为 http://%s:%s", host, port)

@@ -5,30 +5,22 @@ const ObjectId = Schema.Types.ObjectId
 const crypto = require('crypto')
 
 const UserSchema = new mongoose.Schema({
-    account: {
-        unique: true,
-        type: String
-    },
-    // username: String,
+    username: String,
     password: String,
-    pwdKey: String,
-    info: {
+    roleList: {
         type: ObjectId,
-        ref: 'Info'
+        ref: 'Role'
     },
     role: {
         type: Number,
-        default: 0,
-        ref:'Role' //所属角色
+        default: 10
     },
-    title:String,
     /* 
         0: normal 普通用户
         1: verify 邮件激活后的用户
         2: customer 平台客服
         3: businesser 经销商
         4: africanBuyer 非洲采购
-
         >10: admin 管理员
         >50: super admin 超级管理员(开发时候用)
     */

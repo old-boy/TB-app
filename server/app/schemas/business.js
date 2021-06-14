@@ -1,3 +1,12 @@
+
+/**商户
+ * 公司名称
+ * 厂家名称
+ * 品牌数量
+ * 邀请人
+ * 被邀请供应商列表
+ * 被邀请采购商列表
+ */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -5,9 +14,8 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const businessSchema = new Schema({
-    companyName: String,
+    companyName: String, 
     factoryName:String,
-    logo:String,
     brandNumber:{
         type: ObjectId,
         ref: 'Brand' //品牌数量

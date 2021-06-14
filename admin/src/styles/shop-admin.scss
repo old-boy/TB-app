@@ -1,0 +1,180 @@
+@import './variables.scss';
+body{
+    #app {
+        .verfication-code-btn{
+            background-color: transparent !important;
+            border: none !important;
+            color: $color-wu;
+        }
+        .primary{
+            color: $shop;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .online-text{
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar-container{
+            .el-scrollbar__view{
+                ul.el-menu{
+                    li{
+                        &:first-child{
+                            div.el-submenu__title{
+                                
+                            }
+                        }
+                        // background-color: $sidebar !important;
+                        .el-submenu__title{
+                            // background-color: $sidebar !important;
+                        }
+                        &.is-active{
+                            color: $color-ff !important;
+                            background-color: rgba($shop,.2) !important;
+                            position: relative;
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 4px;
+                                height: 100%;
+                                background-color: $shop;
+                            }
+                        }
+                    }
+                }
+            }
+            a.sidebar-logo-link{
+                display: flex;
+                justify-self: start;
+                align-items: center;
+                margin: 0 10px;
+            }
+        }
+        .online-btn{
+            display: flex;
+            justify-content: space-between;
+        }
+        .el-button{
+            height: 50px;
+            background-color: $shop;
+            outline: none;
+            border-color: $shop;
+            padding: 10px;
+            &:hover{
+                background-color: rgba($shop,.8);
+                transition: all 0.3s ease-in-out;
+                cursor: pointer;
+            }
+            &.text-btn{
+                background: transparent;
+                border:0;
+                border-color: transparent;
+                color: $color-wu;
+            }
+        }
+        .tips{
+            color: $color-wu;
+        }
+        .login-container{
+            background: $shop url('../../static/bg/login-bg.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            .login-pannel{
+                width: 460px;
+                height: auto;
+                min-height: 452px;
+                box-shadow: 0px 0px 30px rgba(29, 29, 29, 0.15);
+                border-radius: 10px;
+                .pannel-header{
+                    width: 100%;
+                    height: 172px;
+                    background: url(../../static/bg/login-pannel-bg.jpg) no-repeat;
+                    background-size: 100% auto;
+                    background-position: top center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    .title{
+                        margin: 0;
+                        font-weight: normal;
+                    }
+                    .des{
+                        font-weight: 200;
+                        color: #fff;
+                        opacity: .6;
+                    }
+                }
+                .pannel-content{
+                    background-color: $color-ff;
+                    padding: 2em 4em;
+                    .el-form-item{
+                        background: transparent;
+                        border-radius: 0;
+                        border-bottom: 1px solid #eee;
+                    }
+                    .el-form-item__content{
+                        .login-input{
+                            input[placeholder]{
+                                color: $color-99;
+                            }
+                        }
+                    }
+                }
+            }
+            .register-form{
+                
+            }
+        }
+        .app-container{
+            .top-options{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                .options{
+                    display: flex;
+                    button{
+                        width: 100%;
+                        padding: 0 16px;
+                        height: 40px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.app-wrapper{
+    .sidebar-container{
+        background-color: $sidebar;
+        .sidebar-logo-container{
+            background-color: transparent;
+        }
+        
+        .el-menu{
+            .router-link-active{
+                li{
+                    color: $color-ff;
+                    background-color: rgba(#11C6BE,.2);
+                }
+            }
+        }
+    }
+    .main-container{
+        background-color: $body;
+        .app-main{
+            margin: 20px;
+            width: auto;
+            max-width: 100%;
+            min-height: calc(100vh - 90px);
+            background-color: $color-ff;
+        }
+    }
+}

@@ -9,6 +9,7 @@ const orderSchema = new Schema({
         unique: true,
         type: String//订单号
     },
+    username: String, //收货人
     orderTime: {
         type: Date,
         defalut: Date.now()
@@ -20,6 +21,7 @@ const orderSchema = new Schema({
         type: ObjectId,
         ref: 'Product'
     },
+    productNum: Number,
     productCatalog: {
         type: ObjectId,
         ref: 'ProductCatalog'

@@ -3,6 +3,9 @@ var router = express.Router()
 var fs = require('fs')
 var path = require('path')
 var crypto = require('crypto')
+var bcrypt = require('bcrypt')
+const saltRounds = 10;
+
 var multipartMiddleware = require('connect-multiparty')()
 var { uploadImage } = require('../middleware/uploadImage.js')
 var { handleError } = require('../public/util/handleError.js')
@@ -35,6 +38,29 @@ router.get('/', (req, res, next) => {
 				})
 			}
 		})
+})
+
+// 根据 name 查询用户
+router.get('/search/:name',(req,res,next) => {
+	const name = req.params.name;
+	User.find({'username':name})
+		.populate('Role','roleName')
+		.exec((user) => {
+		console.log(user)
+		if(user){
+			res.status(200).json({
+				status: '1',
+				msg:'',
+				result: user
+			})
+		}else{
+			res.json({
+				status: '0',
+				msg: '用户不存在',
+				result: ''
+			})
+		}
+	})
 })
 
 //分页查询
@@ -89,43 +115,15 @@ router.get('/total',(req,res,next) => {
 
 })
 //根据ID查询
-router.get('/:id',(req,res,next) => {
-	const _id = `${req.params.id}`;
-	console.log('userId  ' + _id)
-	User.findById({_id})
-		.populate('info')
-		.populate('role')
-		.exec((user) => {
-		console.log(user)
-		if(user){
-			res.status(200).json({
-				status: '1',
-				msg:'',
-				result: user
-			})
-		}else{
-			res.json({
-				status: '0',
-				msg: '用户不存在',
-				result: ''
-			})
-		}
-	})
-})
+
 // 添加用户
 router.post('/add', (req, res, next) => {
-	var account = req.body.account,
-		password = req.body.password,
-		avatar = req.body.avatar,
-		job = req.body.job,
-		address = req.body.address,
-		tel = req.body.tel,
-		email = req.body.email,
-		username = req.body.username,
-		role = req.body.role
+	var username = req.body.username,
+		password = req.body.password;
+		
 
 
-		User.findOne({ account: req.body.account }).then((user) => {
+		User.findOne({ username: req.body.username }).then((user) => {
         if (user) {
 			return res.status(400).json(
 				{
@@ -136,14 +134,8 @@ router.post('/add', (req, res, next) => {
 			);
         }else {
 			let newInfo = {
-				avatar,
-				job,
-				address,
-				tel,
-				email,
-				username,
-				userNum,
-				verificationCode
+				password,
+				username
 			}
 			let info = new Info(newInfo)
 		
@@ -156,11 +148,8 @@ router.post('/add', (req, res, next) => {
 					})
 				} else {
 					let newUser = {
-						account: account,
-						password: password,
-						role,
-						pwdKey: '',
-						info: info._id
+						username: username,
+						password: password
 					}
 					let user = new User(newUser)
 					user.save(err => {
@@ -294,34 +283,39 @@ router.post('/modify/psd', (req, res, next) => {
 
 // 登陆接口
 router.post('/login', (req, res, next) => {
-	var account = req.body.account,
-		password = req.body.password;
-
-	User.findOne({'account': account})
-		.populate('info', 'username avatar')
+	var username = req.body.username,
+		cur_password = req.body.password
+	User.findOne({'username': username})
 		.exec()
-		.then((user) => {
-			if (user) {
-				user.comparePwd(password, (err, isMatch) => {
-					if (err) throw err
-					if (isMatch == true) {
-						req.session.user = user
-						res.json({
-							status: '1',
-							msg: '',
-							result: {
-								'user': user,
-								'sessionId': req.session.id
-							}
-						})
-					} else {
-						res.json({
-							status: '0',
-							msg: 'password incorrect',
-							result: ''
-						})
-					}
-				})
+	.then((user) => {
+				if (user) {
+				// console.log('uuuu  ' + user)
+				// console.log('userPassword  ' + user.password)
+				// console.log('cur_password  ' + cur_password)
+				 
+				const isMatch = bcrypt.compare(cur_password, user.password);
+				console.log('ism  ' + isMatch)
+				if(isMatch){
+					req.session.user = user
+
+					res.json({
+						status: '1',
+						code:'200',
+						msg: '',
+						result: {
+							'user': user,
+							'sessionId': req.session.id
+						}
+					})
+				} else {
+					res.json({
+						status: '0',
+						code:'400',
+						msg: 'password incorrect',
+						result: ''
+					})
+				}
+				
 			} else {
 				res.json({
 					status: '0',
@@ -330,6 +324,11 @@ router.post('/login', (req, res, next) => {
 				})
 			}
 		})
+})
+
+// 重置 token
+router.post('/resetToken',(req,res,next) =>{
+
 })
 
 // 登出接口

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
-var InfoSchema = require('./../schemas/info')
+var RoleSchema = require('./../schemas/role')
 
-var Info = mongoose.model('Info', InfoSchema)
+var Role = mongoose.model('Role', RoleSchema)
 
-module.exports = Info
+module.exports = Role

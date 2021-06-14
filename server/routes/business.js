@@ -9,13 +9,13 @@ var { signRequired, adminRole } = require('../middleware/auth.js')
 router.use(signRequired)
 
 //查询
-router.get('/',(req,res,next) => {
+router.get('/search',(req,res,next) => {
     Business.find({})
 		.sort({'_id':1})
-        .populate('Brand','brandNumber')
-        .populate('Users','invitationPeople')
-        .populate('Suppliers','supplierCompanyName')
-        .populate('Buyers','buyerCompanyName')
+		.populate('Brand','brandNumber')
+		.populate('Users','username')
+		.populate('Suppliers','supplierCompanyName')
+		.populate('Buyers','buyerCompanyName')
 		.limit(10)
 		.exec()
 		.then((data) => {
@@ -71,7 +71,6 @@ router.post('/update/:id',(req,res,next) => {
 router.post('/add',(req,res,next) => {
     const companyName = req.body.companyName;
     const factoryName = req.body.factoryName;
-    const logo = req.body.logo;
     const brandNumber = req.body.brandNumber;
     const supplierCompanyName = req.body.supplierCompanyName;
 	const invitationPeople = req.body.invitationPeople;
@@ -90,7 +89,6 @@ router.post('/add',(req,res,next) => {
             let newBusiness = {
                 companyName,
                 factoryName,
-				logo,
                 brandNumber,
                 supplierCompanyName,
                 invitationPeople,
