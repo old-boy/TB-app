@@ -14,9 +14,9 @@ const supplyRouter = {
     children: [
         {
           path: 'merchant',
-          component: () => import('@/views/supplyManagement/merchant'),
+          component: () => import('@/views/supplyManagement/merchant/index'),
           name: 'Merchant',
-          meta: { title: '商户管理', noCache: true,roles: ['admin'],icon:'el-icon-s-check'  }
+          meta: { title: '商户管理', noCache: true,icon:'el-icon-s-check'  }
         },
         {
           path: 'product',

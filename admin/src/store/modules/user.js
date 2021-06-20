@@ -60,7 +60,7 @@ const actions = {
         getRoles().then(response => {
           var data = response.data.users
         // const { data } = response
-        console.log('store-user  ' + data)
+        // console.log('store-user  ' + data)
         // 修改此对象的目的是为了使用 Admin 打开相对应的菜单
 
         if (!data) {

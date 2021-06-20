@@ -161,7 +161,7 @@ router.post('/add', (req, res, next) => {
 							})
 						} else {
 							res.json({
-								status: '1',
+								status: '200',
 								msg: '用户创建成功',
 								result: ''
 							})
@@ -299,7 +299,7 @@ router.post('/login', (req, res, next) => {
 					req.session.user = user
 
 					res.json({
-						status: '1',
+						status: '200',
 						code:'200',
 						msg: '',
 						result: {
@@ -353,7 +353,7 @@ router.post('/checklogin', (req, res, next) => {
 				if (user) {
 					req.session.user = user
 					res.json({
-						status: '1',
+						status: '200',
 						msg: '用户已登陆',
 						result: user
 					})
@@ -382,7 +382,7 @@ router.get('/userInfo/:id', (req, res, next) => {
 		.exec((err, info) => {
 			if (info) {
 				res.json({
-					status: '1',
+					status: '200',
 					msg: '',
 					result: info
 				})
@@ -439,7 +439,7 @@ router.post('/userInfo/:id',  (req, res, next) => {
 
 		newInfo.save().then(info => 
 			res.json({ 
-				status: '1', 
+				status: '200', 
 				msg: "修改成功", 
 				result: info 
 			})).catch(err => console.log(err));

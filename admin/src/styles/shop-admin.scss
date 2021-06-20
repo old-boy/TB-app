@@ -9,6 +9,10 @@ body{
         .primary{
             color: $shop;
         }
+        .el-button--primary{
+            background-color: $shop;
+            border-color: $shop;
+        }
         .text-center{
             text-align: center;
         }
@@ -59,7 +63,7 @@ body{
             display: flex;
             justify-content: space-between;
         }
-        .el-button{
+        el-button[type="primary"]{
             height: 50px;
             background-color: $shop;
             outline: none;

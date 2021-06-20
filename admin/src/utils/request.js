@@ -32,7 +32,23 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => response,
+  // response => response,
+  response => {
+    /**
+     * code为非20000是抛错 可结合自己业务进行修改
+     */
+    if(response.status == 200){
+      return response
+    }
+     
+     
+  }
+  // response => {
+  //   const res = response.data
+  //   if(res.status = 200){
+  //     return res
+  //   }
+  // }
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
