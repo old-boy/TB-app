@@ -34,11 +34,11 @@ const businessSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 

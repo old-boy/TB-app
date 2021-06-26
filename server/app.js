@@ -144,10 +144,10 @@ app.use('/api/supplier',suppliersReview)
 app.use('/buyer',buyers)
 app.use('/buyerInfo', buyerInfo)
 app.use('/api/business',business)
-app.use('/product/catalog', productCatalog)
+app.use('/api/product/catalog', productCatalog)
 app.use('/supplier',suppliers)
-app.use('/order',orders)
-app.use('/product',products)
+app.use('/api/order',orders)
+app.use('/api/product',products)
 
 
 

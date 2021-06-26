@@ -1,4 +1,13 @@
-import {getMerchant,addMerchant} from '@/api/suuply'
+import {
+      getMerchant,
+      addMerchant,
+      getProductCatalog,
+      addProductCatalog,
+      getProductList,
+      getOneProductCatalgo,
+      getOrderList,
+      addOrder
+} from '@/api/suuply'
 
 const suuply = {
       namespaced: true,
@@ -31,7 +40,68 @@ const suuply = {
                               reject(err)
                         })
                   })
-            }
+            },
+            // 查询分类
+            GetProductCatalog({commit}){
+                  return new Promise((reslove, reject) => {
+                        getProductCatalog().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增分类
+            AddProductCatalog({commit},data){
+                  return new Promise((reslove, reject) => {
+                        addProductCatalog(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //查询产品
+            GetProductList({commit}){
+                  return new Promise((reslove, reject) => {
+                        getProductList().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //查询某个产品的分类
+            GetOneProductCatalgo({commit},params){
+                  console.log('eeeee ' + params)
+                  return new Promise((reslove, reject) => {
+                        getOneProductCatalgo(params).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            // 查询订单
+            GetOrder({commit}){
+                  return new Promise((reslove, reject) => {
+                        getOrderList().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增订单
+            AddOrder({commit},data){
+                  return new Promise((reslove, reject) => {
+                        addOrder(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
       }
 }
 

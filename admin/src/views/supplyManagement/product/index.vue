@@ -4,8 +4,10 @@
       <el-col :span="12" class="title">
         产品管理
       </el-col>
-      <el-col :span="1" :offset="10" class="options">
-        <el-button @click="addModal" type="success" size="mini">添加</el-button>
+      <el-col :span="2" :offset="10" class="options">
+        <el-button @click="addModal" type="success" size="mini"
+          >添加产品</el-button
+        >
       </el-col>
     </el-row>
     <el-table
@@ -18,12 +20,21 @@
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="productName" label="商品名称"> </el-table-column>
-      <el-table-column prop="productCatalog" label="商品分类"></el-table-column>
-      <el-table-column prop="productMainPicture" label="商品主图"> </el-table-column>
+      <el-table-column prop="productCatalog" label="商品分类">
+        
+      </el-table-column>
+      <el-table-column prop="productMainPicture" label="商品主图">
+      </el-table-column>
       <el-table-column prop="productPrice" label="商品售价"></el-table-column>
       <el-table-column prop="productTotal" label="库存"></el-table-column>
       <el-table-column prop="productSalesTotal" label="销量"></el-table-column>
-      <el-table-column prop="productStatus" label="状态"></el-table-column>
+      <el-table-column prop="productStatus" label="状态">
+        <template slot-scope="scope">
+          <el-tag
+          :type="scope.row.productStatus === true ? 'success' : 'danger'"
+          disable-transitions>{{scope.row.productStatus === true ? '开' : '关'}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -42,27 +53,47 @@
         </template>
       </el-table-column>
     </el-table>
+    <Edit ref="edit" />
   </div>
 </template>
 <script>
+import Edit from "./components/edit.vue";
 export default {
   name: "Product",
+  components: {
+    Edit
+  },
   data() {
     return {
-        tableData:[],
-        loadingFlag:false
-    }
+      id:'',
+      productCatalogName:'',
+      catalgoId:'',
+      tableData: [],
+      list:[],
+      loadingFlag: false
+    };
+  },
+  created() {
+    this.getTableList()
   },
   methods: {
-        addModal(){
-
-        },
-    editModal() {
-      
+    addModal() {
+      this.$refs.edit.add();
     },
-    removeModal() {
-      
-    }
+    getTableList() {
+      this.loadingFlag = true;
+      var arr = []
+      var obj = {}
+      this.$store.dispatch("suuply/GetProductList").then(data => {
+        if (data.status == 200) {
+          this.loadingFlag = false;
+          this.tableData = data.data.result
+        }
+      });
+    },
+    
+    editModal() {},
+    removeModal() {}
   }
 };
 </script>

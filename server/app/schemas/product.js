@@ -5,10 +5,7 @@ const ObjectId = Schema.Types.ObjectId
 const crypto = require('crypto')
 
 const ProductSchema = new mongoose.Schema({
-    productName:{
-        unique: true,
-        type: String
-    },
+    productName:String,
     productCatalog: {
         type: ObjectId,
         ref: 'ProductCatalog'
@@ -17,7 +14,7 @@ const ProductSchema = new mongoose.Schema({
     productPrice:Number,
     productTotal:Number,
     productSalesTotal:Number,
-    productStatus:String,
+    productStatus:Boolean,
     productOrigin:String,//产地
     brandName:{
         type: ObjectId,
@@ -25,21 +22,21 @@ const ProductSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 });
 
-ProductSchema.pre('save', function() {
-    if (this.isNew) {
-        this.createdAt = this.updatedAt = Date.now()
-    } else {
-        this.updatedAt = Date.now()
-    }
-    next()
-})
+// ProductSchema.pre('save', function() {
+//     if (this.isNew) {
+//         this.createdAt = this.updatedAt = Date.now()
+//     } else {
+//         this.updatedAt = Date.now()
+//     }
+//     next()
+// })
 
 module.exports = ProductSchema

@@ -6,25 +6,20 @@ const ObjectId = Schema.Types.ObjectId
 
 const productCaltalogSchema = new Schema({
     catalogName: String,
-    catalogNum:Number,
-    catalogStatus:String,
+    productTotalNum: {
+        type: ObjectId,
+        ref: 'Product'
+    },
+    catalogStatus:Boolean,
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 
-productCaltalogSchema.pre('save', function() {
-    if (this.isNew) {
-        this.createdAt = this.updatedAt = Date.now()
-    } else {
-        this.updatedAt = Date.now()
-    }
-    next()
-})
 
 module.exports = productCaltalogSchema

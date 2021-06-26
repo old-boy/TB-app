@@ -20,19 +20,19 @@ const supplyRouter = {
         },
         {
           path: 'product',
-          component: () => import('@/views/supplyManagement/product'),
+          component: () => import('@/views/supplyManagement/product/index'),
           name: 'Product',
           meta: { title: '产品管理', noCache: true,icon:'el-icon-orange'}
         },
         {
           path: 'product/catalog',
-          component: () => import('@/views/supplyManagement/productCatalog'),
+          component: () => import('@/views/supplyManagement/productCatalog/index'),
           name: 'ProductCatalog',
           meta: { title: '产品分类', noCache: true,icon:'el-icon-notebook-2'}
         },
         {
             path: 'order',
-            component: () => import('@/views/supplyManagement/order'),
+            component: () => import('@/views/supplyManagement/order/index'),
             name: 'Order',
             meta: { title: '订单管理', noCache: true,icon:'el-icon-shopping-cart-full'}
           }
