@@ -23,7 +23,13 @@
       <el-table-column prop="supplierCompanyName" label="供应商"></el-table-column>
       <el-table-column prop="buyerCompanyName" label="采购商"></el-table-column>
       <el-table-column prop="username" label="收货人"></el-table-column>
-      <el-table-column prop="orderStatus" label="订单状态"></el-table-column>
+      <el-table-column prop="orderStatus" label="订单状态">
+        <template slot-scope="scope">
+          <el-tag
+          :type="scope.row.orderStatus === true ? 'success' : 'danger'"
+          disable-transitions>{{scope.row.orderStatus === true ? '开' : '关'}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -57,6 +63,9 @@ export default {
       tableData: [],
       loadingFlag: false
     };
+  },
+  created() {
+    this.getTableList()
   },
   methods: {
     addModal() {

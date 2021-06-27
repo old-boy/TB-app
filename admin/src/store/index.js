@@ -6,6 +6,7 @@ import settings from './modules/settings'
 import user from './modules/user'
 import tagView from './modules/tagsView'
 import suuply from './modules/suuply'
+import buyers from './modules/buyers'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     settings,
     user,
     tagView,
-    suuply
+    suuply,
+    buyers
   },
   getters
 })

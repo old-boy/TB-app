@@ -14,10 +14,10 @@ const orderSchema = new Schema({
         ref: 'ProductCatalog' //商品分类 
     },
     productNum: Number, //商品数量
-    buyerCompanyName:{
-        type: ObjectId,
-        ref: 'Buyers' //采购商
-    },
+    // buyerCompanyName:{
+    //     type: ObjectId,
+    //     ref: 'Buyers' //采购商
+    // },
     username: String, //收货人
     userTel:String, //收货人手机号
     orderDate: Date, //下单时间
@@ -25,10 +25,7 @@ const orderSchema = new Schema({
         type: ObjectId,
         ref: 'Product' //商品名称
     },
-    orderTime: {
-        type: Date,
-        defalut: Date.now()//订单时间
-    },
+   
     orderStatus:Boolean, //订单状态
     orderPrice:String, //订单金额
     orderCertificate:Array,//交易凭证
@@ -38,11 +35,11 @@ const orderSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 

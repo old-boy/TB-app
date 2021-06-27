@@ -20,10 +20,7 @@ const businessSchema = new Schema({
         type: ObjectId,
         ref: 'Brand' //品牌数量
     },
-    invitationPeople: {
-        type: ObjectId,
-        ref: 'Users' //邀请人
-    },
+    invitationPeople:String,
     supplierCompanyName:{
         type: ObjectId,
         ref: 'Suppliers' //供应商

@@ -14,19 +14,19 @@ const buyerRouter = {
     children: [
       {
         path: 'buyers',
-        component: () => import('@/views/buyerManagement/buyer'),
+        component: () => import('@/views/buyerManagement/buyer/index'),
         name: 'Buyer',
         meta: { title: '采购商', icon: 'el-icon-shopping-bag-1' }
       },
       {
         path: 'info',
-        component: () => import('@/views/buyerManagement/buyerInfo'),
+        component: () => import('@/views/buyerManagement/buyerInfo/index'),
         name: 'BuyerInfo',
         meta: { title: '采购商员工', icon: 'el-icon-user' }
       },
       {
         path: 'link',
-        component: () => import('@/views/buyerManagement/buyerLink'),
+        component: () => import('@/views/buyerManagement/buyerLink/index'),
         name: 'BuyerLink',
         meta: { title: '邀请供应商', icon: 'el-icon-hot-water' }
       }

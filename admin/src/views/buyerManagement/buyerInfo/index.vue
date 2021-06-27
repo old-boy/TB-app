@@ -39,11 +39,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <Edit ref="edit"/>
   </div>
 </template>
 <script>
+import Edit from './components/edit.vue'
 export default {
   name: "BuyerInfo",
+  components:{
+    Edit
+  },
   data() {
     return {
       tableData: [],
@@ -51,7 +56,9 @@ export default {
     };
   },
   methods: {
-    addModal() {},
+    addModal() {
+      this.$refs.edit.add()
+    },
     editModal() {},
     removeModal() {}
   }

@@ -11,7 +11,7 @@ orderRouter.route(`/`)
 		.populate('Product', 'productName')
 		.populate('ProductCatalog', 'productCatalog')
 		.populate('Suppliers', 'supplierCompanyName')
-		.populate('Buyers', 'buyerCompanyName')
+		// .populate('Buyers', 'buyerCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {
@@ -40,7 +40,6 @@ orderRouter.route(`/add`)
 		const userTel = req.body.userTel;
 		const orderDate = req.body.orderDate;
 		const product = req.body.product;
-		const orderTime = req.body.orderTime;
 		const orderStatus = req.body.orderStatus;
 		const orderPrice = req.body.orderPrice;
 		const orderCertificate = req.body.orderCertificate;
@@ -66,10 +65,8 @@ orderRouter.route(`/add`)
 					orderDate,
 					orderPrice,
 					orderStatus,
-					orderTime,
 					orderCertificate,
-					supplierCompanyName,
-					createdAt
+					supplierCompanyName
 				  };
 		  
 				  let orderEntity = new Order(newOrder)
