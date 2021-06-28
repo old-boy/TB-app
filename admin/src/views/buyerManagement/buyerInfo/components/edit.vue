@@ -70,7 +70,7 @@ export default {
                         buyerTel:'',
                         buyerEmail:'',
                         buyerAddress:'',
-                        buyerCompanyName:''
+                        buyerCompanyName:'上百香果'
                   },
                   show: false,
                   display: true,
@@ -118,7 +118,7 @@ export default {
                         buyerTel:'',
                         buyerEmail:'',
                         buyerAddress:'',
-                        buyerCompanyName:''
+                        buyerCompanyName:'上百午果公司'
                   }
                   
                   this.title = this.addTitle
@@ -129,20 +129,24 @@ export default {
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let catalogName = this.form.catalogName
-                              let productTotalNum = this.form.productTotalNum ? this.form.productTotalNum : 0
-                              let catalogStatus = this.form.status
-                             
+                              let buyerAvatar = this.form.buyerAvatar
+                              let buyerName = this.form.buyerName
+                              let buyerTel = this.form.buyerTel
+                              let buyerEmail = this.form.buyerEmail
+                              let buyerAddress = this.form.buyerAddress
+                              let buyerCompanyName = this.form.buyerCompanyName == null || this.form.buyerCompanyName == undefined ? '' : null
                               
                               var newForm = {
-                                    catalogName,
-                                    productTotalNum,
-                                    catalogStatus
+                                    buyerAvatar,
+                                    buyerName,
+                                    buyerTel,
+                                    buyerEmail,
+                                    buyerAddress,
+                                    buyerCompanyName
                               }
                               console.log('add +++' + newForm)
-                              this.$store.dispatch('suuply/AddProductCatalog',newForm).then((data) => {
+                              this.$store.dispatch('buyers/AddBuyerInfo',newForm).then((data) => {
                                     if(data.status == 200){
-                                          console.log('saveCatalog ++' + data)
                                           this.loading = false
                                           this.dialogVisible = false
                                           this.$message({
@@ -152,7 +156,7 @@ export default {
                                           })
                                     }
                               })
-                         
+                              this.$parent.getBuyerInfoList()
                         }
                   })
             },

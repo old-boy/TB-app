@@ -1,6 +1,8 @@
 import { 
       getBuyerInfo,
-      addBuyerInfo
+      addBuyerInfo,
+      getBuyer,
+      addBuyer
  } from '@/api/buyers'
 
  const buyers = {
@@ -35,7 +37,26 @@ import {
                         })
                   })
             },
-            
+            //查询采购商
+            GetBuyer({ commit }){
+                  return new Promise((reslove, reject) => {
+                        getBuyer().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增员工
+            AddBuyerInfo({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        addBuyer(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
       }
 }
 

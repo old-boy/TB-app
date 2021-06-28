@@ -3,8 +3,6 @@ var buyerInfoRouter = express.Router()
 
 var BuyerInfo = require('../app/models/buyerInfo')
 
-router.use(signRequired)
-
 //查询
 buyerInfoRouter.route(`/`)
 	.get((req,res) => {
@@ -18,7 +16,7 @@ buyerInfoRouter.route(`/`)
 				res.json({
 					status: '200',
 					msg: '',
-					data
+					result: data
 				})
 			} else {
 				res.json({
@@ -32,12 +30,13 @@ buyerInfoRouter.route(`/`)
 
 buyerInfoRouter.route(`/add`)
 	.post((req,res) => {
+		console.log('ppp  ' + req.body.buyerCompanyName)
 		const buyerAvatar = req.body.buyerAvatar;
 		const buyerName = req.body.buyerName;
 		const buyerTel = req.body.buyerTel;
 		const buyerEmail = req.body.buyerEmail;
 		const buyerAddress = req.body.buyerAddress;
-		const buyerCompanyName = req.body.buyerCompanyName == null ? this.body.buyerCompanyName : '';
+		const buyerCompanyName = req.body.buyerCompanyName == null ? [] : '';
 
 		BuyerInfo.findOne({buyerName:req.body.buyerName}).then((doc)　=> {
 			if(doc){

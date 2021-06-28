@@ -19,15 +19,15 @@
                         </el-form-item>
                         <el-form-item label="采购员">
                              <el-select
-                                    v-model="form.buyerList"
+                                    v-model="form.buyerInfo"
                                     placeholder="请选择公司采购员"
                                     multiple
                               >
                                     <el-option
-                                    v-for="item in buyerList"
-                                    :key="item.id"
-                                    :label="item.buyerInfo"
-                                    :value="item.buyerInfo"
+                                    v-for="item in buyerInfoList"
+                                    :key="item._id"
+                                    :label="item.buyerName"
+                                    :value="item.buyerName"
                                     />
                               </el-select>
                         </el-form-item>
@@ -53,15 +53,12 @@ export default {
                   dialogVisible: false,
                   loading: false,
                   saveDataList:[],
-                  buyerCompanyList:[],
+                  buyerInfoList:[],
                   form:{
-                        companyName:'',
-                        factoryName:'',
-                        brandNumber:'',
-                        invitationPeople:'',
-                        supplierCompanyName:'',
                         buyerCompanyName:'',
-
+                        buyerCompanyAddres:'',
+                        buyerCompanyTel:'',
+                        buyerInfo:[]
                   },
                   show: false,
                   display: true,
@@ -82,19 +79,28 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
-            getProductNumber(){
-                  this.$store.dispatch('suuply/GetProductList').then((data) => {
+            getBuyerInfoList(){
+                  this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
                         if(data.status == 200){
-                              let arr = data.data.result
-                              arr.map((value,key) => {
-                                    let companyName = value.companyName
-                                    let id = value._id
-                                    let itemEntity = {
-                                          companyName,
-                                          id
-                                    }
-                                    this.supplierCompanyList.push(itemEntity)
-                              })
+                              this.buyerInfoList = data.data.result
+                              console.log('pppp +' + buyerInfoList)
+                              // arr.map((value,key) => {
+                              //       let buyerAvatar = value.buyerAvatar
+                              //       let buyerName = value.buyerName
+                              //       let buyerTel = value.buyerTel
+                              //       let buyerEmail = value.buyerEmail
+                              //       let buyerAddress = value.buyerAddress
+                              //       let id = value._id
+                              //       let itemEntity = {
+                              //             buyerAvatar,
+                              //             id,
+                              //             buyerName,
+                              //             buyerTel,
+                              //             buyerEmail,
+                              //             buyerAddress
+                              //       }
+                              //       this.form.buyerInfoList.push(itemEntity)
+                              // })
                               
                         }
                   })
@@ -104,16 +110,14 @@ export default {
                   this.disable = false
                   this.form = {
                         id:null,
-                        buyerAvatar:'',
-                        buyerName:'',
-                        buyerTel:'',
-                        buyerEmail:'',
-                        buyerAddress:'',
-                        buyerCompanyName:''
+                        buyerCompanyName:'',
+                        buyerCompanyAddres:'',
+                        buyerCompanyTel:'',
+                        buyerInfo:[]
                   }
                   
                   this.title = this.addTitle
-                  // this.getSupplierCompanyList()
+                  this.getBuyerInfoList()
             },
             edit(){},
             save(){

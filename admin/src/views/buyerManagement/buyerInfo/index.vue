@@ -55,9 +55,22 @@ export default {
       loadingFlag: false
     };
   },
+  created() {
+    this.getBuyerInfoList()
+  },
   methods: {
     addModal() {
       this.$refs.edit.add()
+    },
+    getBuyerInfoList(){
+      this.loadingFlag = true
+      this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
+        console.log('catalog  +++' + data)
+            if(data.status == 200){
+              this.loadingFlag = false
+              this.tableData = data.data.result
+            }
+          })
     },
     editModal() {},
     removeModal() {}
