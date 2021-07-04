@@ -10,28 +10,23 @@ const brandSchema = new Schema({
         type: String
     },
     brandDescription:String, //描述
-    brandTotal:Number, //数量
-    productList:{
-        type: ObjectId,
-        ref:'product'
-    },
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 
-brandSchema.pre('save', function() {
-    if (this.isNew) {
-        this.createdAt = this.updatedAt = Date.now()
-    } else {
-        this.updatedAt = Date.now()
-    }
-    next()
-})
+// brandSchema.pre('save', function() {
+//     if (this.isNew) {
+//         this.createdAt = this.updatedAt = Date.now()
+//     } else {
+//         this.updatedAt = Date.now()
+//     }
+//     next()
+// })
 
 module.exports = brandSchema

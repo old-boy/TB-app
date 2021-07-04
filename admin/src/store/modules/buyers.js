@@ -2,7 +2,9 @@ import {
       getBuyerInfo,
       addBuyerInfo,
       getBuyer,
-      addBuyer
+      addBuyer,
+      getBuyerInviter,
+      addBuyerInviter
  } from '@/api/buyers'
 
  const buyers = {
@@ -47,10 +49,30 @@ import {
                         })
                   })
             },
-            //新增员工
-            AddBuyerInfo({ commit }, data){
+            //新增采购商
+            AddBuyer({ commit }, data){
                   return new Promise((reslove, reject) => {
                         addBuyer(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //查询邀请供应商
+            GetBuyerInviter({ commit }){
+                  return new Promise((reslove, reject) => {
+                        getBuyerInviter().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增邀请供应商
+            AddBuyerInviter({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        addBuyerInviter(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)

@@ -4,9 +4,12 @@ import {
       getProductCatalog,
       addProductCatalog,
       getProductList,
+      addProduct,
       getOneProductCatalgo,
       getOrderList,
-      addOrder
+      addOrder,
+      getBrand,
+      addBrand
 } from '@/api/suuply'
 
 const suuply = {
@@ -96,6 +99,36 @@ const suuply = {
             AddOrder({commit},data){
                   return new Promise((reslove, reject) => {
                         addOrder(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            // 查询品牌
+            GetBrand({commit}){
+                  return new Promise((reslove, reject) => {
+                        getBrand().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增品牌
+            AddBrand({commit},data){
+                  return new Promise((reslove, reject) => {
+                        addBrand(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增产品
+            AddProduct({commit},data){
+                  return new Promise((reslove, reject) => {
+                        addProduct(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)

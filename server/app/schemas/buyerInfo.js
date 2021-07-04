@@ -13,7 +13,7 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const buyerInfoSchema = new Schema({
-    buyerAvatar:String,
+    // buyerAvatar:String,
     buyerName:String,
     buyerTel:String,
     buyerEmail:String,

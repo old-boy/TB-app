@@ -14,10 +14,10 @@ const orderSchema = new Schema({
         ref: 'ProductCatalog' //商品分类 
     },
     productNum: Number, //商品数量
-    // buyerCompanyName:{
-    //     type: ObjectId,
-    //     ref: 'Buyers' //采购商
-    // },
+    buyerCompanyName:{
+        type: ObjectId,
+        ref: 'Buyers' //采购商
+    },
     username: String, //收货人
     userTel:String, //收货人手机号
     orderDate: Date, //下单时间

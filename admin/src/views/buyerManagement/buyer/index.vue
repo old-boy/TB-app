@@ -61,9 +61,21 @@ export default {
       loadingFlag: false
     };
   },
+  created() {
+    this.getBuyerList()
+  },
   methods: {
     addModal() {
       this.$refs.edit.add()
+    },
+    getBuyerList(){
+      this.loadingFlag = true
+      this.$store.dispatch('buyers/GetBuyer').then((data) => {
+            if(data.status == 200){
+              this.loadingFlag = false
+              this.tableData = data.data.result
+            }
+          })
     },
     editModal() {},
     removeModal() {}

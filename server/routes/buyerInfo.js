@@ -30,15 +30,16 @@ buyerInfoRouter.route(`/`)
 
 buyerInfoRouter.route(`/add`)
 	.post((req,res) => {
-		console.log('ppp  ' + req.body.buyerCompanyName)
-		const buyerAvatar = req.body.buyerAvatar;
+		const buyerAvatar = req.body.buyerAvatar == '' ? [] : '';
 		const buyerName = req.body.buyerName;
 		const buyerTel = req.body.buyerTel;
 		const buyerEmail = req.body.buyerEmail;
 		const buyerAddress = req.body.buyerAddress;
-		const buyerCompanyName = req.body.buyerCompanyName == null ? [] : '';
+		const buyerCompanyName = req.body.buyerCompanyName;
 
+		
 		BuyerInfo.findOne({buyerName:req.body.buyerName}).then((doc)　=> {
+			console.log('ppp  ' +doc)
 			if(doc){
 				res.status(400).json({ message: "巳存在" }).send(doc)
 			}else{

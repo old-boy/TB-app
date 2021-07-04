@@ -1,7 +1,7 @@
 <template>
       <div class="edit-dialog">
             <el-dialog
-                  title="title"
+                  :title="title"
                   :visible.sync="dialogVisible"
                   width="30%"
                   @close="handleClose"
@@ -30,9 +30,14 @@
                               </el-select>
                         </el-form-item>
                         <el-form-item label="选择被邀请采购商" labelWidth="600">
-                              <el-select v-model="form.buyerCompanyName" placeholder="请选择采购" multiple >
-                                    <el-option label="采购商1" value="shanghai"></el-option>
-                                    <el-option label="采购商2" value="beijing"></el-option>
+                              <el-select v-model="form.buyerCompanyName" placeholder="请选择采购" >
+                                    <el-option
+                                    v-for="item in buyerCompanyList"
+                                    :key="item.id"
+                                    :label="item.buyerCompanyName"
+                                    :value="item._id"
+                                    @change="getValue"
+                                    />
                               </el-select>
                         </el-form-item>
                   </el-form>
@@ -51,12 +56,13 @@ import { addMerchant } from "@/api/suuply";
 export default {
       data() {
             return {
-                  title:'',
+                  title:'新增',
                   addTitle:'新增客户',
                   editTitle:'编辑客户',
                   dialogVisible: false,
                   loading: false,
                   supplierCompanyList:[],
+                  buyerCompanyList:[],
                   form:{
                         companyName:'',
                         factoryName:'',
@@ -98,6 +104,17 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
+            getValue(value){
+                  this.form.buyerCompanyName = value
+            },
+            getBuyerList(){
+                  this.$store.dispatch('buyers/GetBuyer').then((data) => {
+                        if(data.status == 200){
+                        this.loadingFlag = false
+                        this.buyerCompanyList = data.data.result
+                        }
+                  })
+            },
             getSupplierCompanyList(){
                   this.$store.dispatch('suuply/MerchantList').then((data) => {
                         if(data.status == 200){
@@ -130,6 +147,7 @@ export default {
                   this.supplierCompanyList = []
                   this.title = this.addTitle
                   this.getSupplierCompanyList()
+                  this.getBuyerList()
             },
             edit(){},
             save(){
@@ -139,7 +157,7 @@ export default {
                               let supplierCompanyList = []
                               supplierCompanyList.push(this.form.supplierCompanyName)
                              
-                              let buyerCompanyList = []
+                              let buyerCompanyName = this.form.buyerCompanyName
                               buyerCompanyList.push(this.form.buyerCompanyName)
                               var newForm = {
                                     companyName:this.form.companyName,
@@ -147,7 +165,7 @@ export default {
                                     brandNumber:this.form.brandNumber,
                                     invitationPeople: this.form.invitationPeople ? this.form.invitationPeople:'',
                                     supplierCompanyName: supplierCompanyList,
-                                    buyerCompanyName: buyerCompanyList
+                                    buyerCompanyName
                               }
                               console.log('add +++' + newForm)
                               this.$store.dispatch('suuply/MerchantAdd',newForm).then((data) => {

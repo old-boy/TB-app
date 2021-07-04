@@ -27,13 +27,5 @@ const buyerSchema = new Schema({
     }
 }) 
 
-buyerSchema.pre('save', function() {
-    if (this.isNew) {
-        this.createdAt = this.updatedAt = Date.now()
-    } else {
-        this.updatedAt = Date.now()
-    }
-    next()
-})
 
 module.exports = buyerSchema

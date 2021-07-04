@@ -25,6 +25,8 @@
       </el-table-column>
       <el-table-column prop="productMainPicture" label="商品主图">
       </el-table-column>
+      <el-table-column prop="brandName" label="品牌">
+      </el-table-column>
       <el-table-column prop="productPrice" label="商品售价"></el-table-column>
       <el-table-column prop="productTotal" label="库存"></el-table-column>
       <el-table-column prop="productSalesTotal" label="销量"></el-table-column>

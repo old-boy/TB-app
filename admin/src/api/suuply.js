@@ -1,9 +1,28 @@
 /**供应商管理
  * 商户管理 merchant
  * 产品分类 productCatalog
+ * 品牌管理
+ * 产品管理
  */
  import request from '@/utils/request'
 
+
+// 获取品牌列表
+export function getBrand(){
+      return request({
+            url:'/brand/',
+            method:'get'
+      })
+}
+
+// 添加品牌
+export function addBrand(data) {
+      return request({
+        url:'/brand/add',
+        method: 'post',
+        data
+      })
+}
 
 // 获取商户列表
 export function getMerchant(){
@@ -47,6 +66,15 @@ export function getProductList(){
       })
 }
 
+// 新增产品
+export function addProduct(data) {
+      return request({
+            url:'/product/add',
+            method: 'post',
+            data
+      })
+}
+
 // 查询产品分类
 export function getOneProductCatalgo(params){
       return request({
@@ -71,3 +99,4 @@ export function addOrder(data) {
             data
       })
 }
+

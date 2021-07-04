@@ -17,7 +17,7 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="buyerCompanyName" label="采购商名称">
+      <el-table-column prop="buyerCompany" label="采购商名称">
       </el-table-column>
       <el-table-column
         prop="inviter"
@@ -27,7 +27,7 @@
         prop="inviterSource"
         label="邀请人来源"
       ></el-table-column>
-      <el-table-column prop="supplierCompanyName" label="被邀请供应商"></el-table-column>
+      <el-table-column prop="supplierCompany" label="被邀请供应商"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -46,20 +46,37 @@
         </template>
       </el-table-column>
     </el-table>
+    <Edit ref="edit"/>
   </div>
 </template>
 <script>
+import Edit from './components/edit.vue'
 export default {
   name: "BuyerLink",
+  components:{
+    Edit
+  },
   data() {
     return {
       tableData: [],
       loadingFlag: false
     };
   },
+  created() {
+    this.getDataList()
+  },
   methods: {
     addModal() {
-      
+      this.$refs.edit.add()
+    },
+    getDataList(){
+      this.loadingFlag = true
+      this.$store.dispatch('buyers/GetBuyerInviter').then((data) => {
+            if(data.status == 200){
+              this.loadingFlag = false
+              this.tableData = data.data.result
+            }
+          })
     },
     editModal() {},
     removeModal() {}

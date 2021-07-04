@@ -11,7 +11,7 @@ orderRouter.route(`/`)
 		.populate('Product', 'productName')
 		.populate('ProductCatalog', 'productCatalog')
 		.populate('Suppliers', 'supplierCompanyName')
-		// .populate('Buyers', 'buyerCompanyName')
+		.populate('Buyers', 'buyerCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {

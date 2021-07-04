@@ -19,6 +19,12 @@ const supplyRouter = {
           meta: { title: '商户管理', noCache: true,icon:'el-icon-s-check'  }
         },
         {
+          path: 'brand',
+          component: () => import('@/views/supplyManagement/brand/index'),
+          name: 'Brand',
+          meta: { title: '品牌管理', noCache: true,icon:'el-icon-medal'  }
+        },
+        {
           path: 'product',
           component: () => import('@/views/supplyManagement/product/index'),
           name: 'Product',

@@ -21,13 +21,14 @@
                              <el-select
                                     v-model="form.buyerInfo"
                                     placeholder="请选择公司采购员"
-                                    multiple
+                                    ref="selection"
+                                    @change="getValue"
                               >
                                     <el-option
                                     v-for="item in buyerInfoList"
                                     :key="item._id"
                                     :label="item.buyerName"
-                                    :value="item.buyerName"
+                                    :value="item._id"
                                     />
                               </el-select>
                         </el-form-item>
@@ -79,29 +80,13 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
+            getValue(value){
+                  this.form.buyerInfo = value
+            },
             getBuyerInfoList(){
                   this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
                         if(data.status == 200){
                               this.buyerInfoList = data.data.result
-                              console.log('pppp +' + buyerInfoList)
-                              // arr.map((value,key) => {
-                              //       let buyerAvatar = value.buyerAvatar
-                              //       let buyerName = value.buyerName
-                              //       let buyerTel = value.buyerTel
-                              //       let buyerEmail = value.buyerEmail
-                              //       let buyerAddress = value.buyerAddress
-                              //       let id = value._id
-                              //       let itemEntity = {
-                              //             buyerAvatar,
-                              //             id,
-                              //             buyerName,
-                              //             buyerTel,
-                              //             buyerEmail,
-                              //             buyerAddress
-                              //       }
-                              //       this.form.buyerInfoList.push(itemEntity)
-                              // })
-                              
                         }
                   })
             },
@@ -124,20 +109,19 @@ export default {
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let catalogName = this.form.catalogName
-                              let productTotalNum = this.form.productTotalNum ? this.form.productTotalNum : 0
-                              let catalogStatus = this.form.status
+                              let buyerCompanyName = this.form.buyerCompanyName
+                              let buyerCompanyAddres = this.form.buyerCompanyAddres
+                              let buyerCompanyTel = this.form.buyerCompanyTel
+                              let buyerInfo = this.form.buyerInfo
                              
-                              
                               var newForm = {
-                                    catalogName,
-                                    productTotalNum,
-                                    catalogStatus
+                                    buyerCompanyName,
+                                    buyerCompanyAddres,
+                                    buyerCompanyTel,
+                                    buyerInfo
                               }
-                              console.log('add +++' + newForm)
-                              this.$store.dispatch('suuply/AddProductCatalog',newForm).then((data) => {
+                              this.$store.dispatch('buyers/AddBuyer',newForm).then((data) => {
                                     if(data.status == 200){
-                                          console.log('saveCatalog ++' + data)
                                           this.loading = false
                                           this.dialogVisible = false
                                           this.$message({
@@ -147,7 +131,7 @@ export default {
                                           })
                                     }
                               })
-                         
+                              this.$parent.getBuyerList()
                         }
                   })
             },

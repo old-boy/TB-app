@@ -9,9 +9,8 @@ productRouter.route(`/`)
     Product.find({})
     .sort({'_id':-1})
     .limit(10)
-    .populate('ProductCatalog','_id catalogName')
+    .populate('ProductCatalog catalogName')
     .populate('Brand','brandName brandDescription')
-    .exec()
     .then((data) => {
         if (data) {
             res.json({
@@ -47,7 +46,7 @@ productRouter.route(`/add`)
     .post((req,res) => {
         const productName = req.body.productName,
         productCatalog = req.body.productCatalog,
-        productMainPicture = req.body.productMainPicture,
+        productMainPicture = '',
         productPrice = req.body.productPrice,
         productTotal = req.body.productTotal,
         productSalesTotal = req.body.productSalesTotal,
@@ -57,6 +56,7 @@ productRouter.route(`/add`)
 
         Product.findOne({productName:req.body.productName}).then((doc)　=> {
             if(doc){
+                console.log('productName  ' + doc)
 				res.status(400).json({ message: "巳存在" }).send(doc)
 			}else{
                 let newProduct = {
@@ -92,82 +92,18 @@ productRouter.route(`/add`)
         })
     })
 
-//根据name查询product
-// router.get('/:productName',(req,res,next) => {
-//     const productName = req.params.productName;
-//     Product.find({ productName })
-//     .sort({'_id':-1})
-//     .limit(10)
-//     .exec()
-//     .then((product) => {
-//         if (product) {
-//             res.json({
-//                 status: '1',
-//                 msg: '',
-//                 result: product
-//             })
-//         } else {
-//             res.json({
-//                 status: '0',
-//                 msg: '没有product',
-//                 result: ''
-//             })
-//         }
-//     })
-// })
-
-
-
-//根据 id 更新数据
-// router.post('/update/:id',(req,res,next) => {
-// 	var _id = `${req.params.id}`;
-// 	Product.updateOne({ _id }, req.body, (err, product) => {
-// 		if (err) {
-// 			res.status(500).json({ error: err });
-// 		} else {
-// 			res.status(200).send(product);
-// 		}
-// 	})
-// })
-
-//删除tags
-// router.delete('/del/:id',(req,res,next) => {
-//     const id = `${req.params.id}`;
-// 	Product.deleteOne({ _id: id }).then((product) => {
-// 		if(product){
-// 			res.status(200).json({
-// 				status: '1',
-// 				msg: '删除成功',
-// 				result: ''
-// 			})
-// 		}else{
-// 			res.status(400).json({
-// 				status: '0',
-// 				msg: '不存在',
-// 				result: ''
-// 			})
-// 		}
-// 	})
-// })
-
-//查询类型总数
-// router.get('/total',(req,res,next) => {
-//     const total = Product.find().count();
-//     console.log('product total   ' + total)
-//     if(total > 0){
-//         res.json({
-//             status: '1',
-//             msg: '',
-//             total: num
-//         })
-//     } else {
-//         res.json({
-//             status: '0',
-//             msg: '没有产品',
-//             total: 0
-//         })
-//     }
-
-// })
+//统计某个产品分类下的产品数量
+productRouter.route('/total')
+.get((req,res) => {
+    Product.find({})
+    .aggregate( [
+        {
+          $group: {
+             _id: null,
+             total: { $sum: "$discountMoney" }
+          }
+        }
+     ] );
+})
 
 module.exports = productRouter

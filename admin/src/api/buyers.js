@@ -36,3 +36,20 @@ export function addBuyer(data) {
         data
       })
 }
+
+//查询邀请供应商 /buyer/inviter
+export function getBuyerInviter(){
+      return request({
+            url:'/buyer/inviter/',
+            method:'get'
+      })
+}
+
+// 新增邀请供应商
+export function addBuyerInviter(data) {
+      return request({
+        url:'/buyer/inviter/add',
+        method: 'post',
+        data
+      })
+}

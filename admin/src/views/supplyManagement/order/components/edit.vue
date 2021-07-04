@@ -1,7 +1,7 @@
 <template>
   <div class="edit-dialog">
     <el-dialog
-      title="新增"
+      :title="title"
       :visible.sync="dialogVisible"
       width="70%"
       @close="handleClose"
@@ -47,13 +47,13 @@
                 <el-select
                   v-model="form.buyerCompanyName"
                   placeholder="请选择采购商"
-                  multiple
                 >
                   <el-option
-                    v-for="item in buyerCompanyList"
-                    :key="item.id"
-                    :label="item.catalogName"
-                    :value="item.catalogName"
+                  v-for="item in buyerCompanyList"
+                  :key="item.id"
+                  :label="item.buyerCompanyName"
+                  :value="item._id"
+                  @change="getValue"
                   />
                 </el-select>
               </el-form-item>
@@ -143,8 +143,8 @@ export default {
   },
   data() {
     return {
-      title: "",
-      editTitle: "编辑产品",
+      title: "新增订单",
+      editTitle: "编辑订单",
       dialogVisible: false,
       loading: false,
       catalogNameList: [],
@@ -190,6 +190,17 @@ export default {
           });
         }
       });
+    },
+    getValue(value){
+          this.form.buyerCompanyName = value
+    },
+    getBuyerList(){
+          this.$store.dispatch('buyers/GetBuyer').then((data) => {
+                if(data.status == 200){
+                this.loadingFlag = false
+                this.buyerCompanyList = data.data.result
+                }
+          })
     },
     getProductList() {
       this.$store.dispatch("suuply/GetProductList").then(data => {
@@ -265,6 +276,7 @@ export default {
       this.getCatalogList();
       this.getSupplierCompanyList();
       this.getProductList();
+      this.getBuyerList()
       // this.getBrandNameList()
     },
     edit() {},

@@ -23,14 +23,15 @@
                         <el-form-item label="采购公司">
                               <el-select
                                     v-model="form.buyerCompanyList"
-                                    placeholder="请选择供应商"
-                                    multiple
+                                    placeholder="请选择采购商"
+                                    ref="selection"
+                                    @change="getValue"
                               >
                                     <el-option
                                     v-for="item in buyerCompanyList"
                                     :key="item.id"
                                     :label="item.buyerCompanyName"
-                                    :value="item.buyerCompanyName"
+                                    :value="item._id"
                                     />
                               </el-select>
                         </el-form-item>
@@ -91,22 +92,16 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
-            getProductNumber(){
-                  this.$store.dispatch('suuply/GetProductList').then((data) => {
+            getBuyerList(){
+                  this.$store.dispatch('buyers/GetBuyer').then((data) => {
                         if(data.status == 200){
-                              let arr = data.data.result
-                              arr.map((value,key) => {
-                                    let companyName = value.companyName
-                                    let id = value._id
-                                    let itemEntity = {
-                                          companyName,
-                                          id
-                                    }
-                                    this.supplierCompanyList.push(itemEntity)
-                              })
-                              
+                        this.loadingFlag = false
+                        this.buyerCompanyList = data.data.result
                         }
                   })
+            },
+            getValue(value){
+                  this.form.buyerCompanyName = value
             },
             add(){
                   this.dialogVisible = true
@@ -122,7 +117,7 @@ export default {
                   }
                   
                   this.title = this.addTitle
-                  // this.getSupplierCompanyList()
+                  this.getBuyerList()
             },
             edit(){},
             save(){
@@ -134,7 +129,7 @@ export default {
                               let buyerTel = this.form.buyerTel
                               let buyerEmail = this.form.buyerEmail
                               let buyerAddress = this.form.buyerAddress
-                              let buyerCompanyName = this.form.buyerCompanyName == null || this.form.buyerCompanyName == undefined ? '' : null
+                              let buyerCompanyName = this.form.buyerCompanyName
                               
                               var newForm = {
                                     buyerAvatar,
@@ -150,7 +145,7 @@ export default {
                                           this.loading = false
                                           this.dialogVisible = false
                                           this.$message({
-                                                message: '添加成功',
+                                                message: data.message,
                                                 showClose: true,
                                                 type: 'success'
                                           })
