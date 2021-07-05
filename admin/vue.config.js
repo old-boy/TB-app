@@ -37,7 +37,9 @@ module.exports = {
     //   errors: true
     // },
     // before: require('./mock/mock-server.js')
-    
+    //开启natapp 内网穿透服务
+    disableHostCheck:true,
+    //本地代理服务开启
     proxy: {
       '/api': {
         target: 'http://192.168.31.182:4000', //对应自己的接口
