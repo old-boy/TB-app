@@ -9,7 +9,7 @@ var Caigou = require('../app/models/caigou')
 caigouRouter.route(`/`)
 	.get((req,res) => {
 		Caigou.find({})
-		.sort({'_id':1})
+		.sort({'_id':-1})
 		.limit(10)
 		.populate('caigouInfo', 'buyerName buyerTel buyerEmail buyerAddress buyerAvatar')
 		.exec()
@@ -68,4 +68,16 @@ caigouRouter.route(`/add`)
 		})
 	})
 
+	caigouRouter.route('/del/:id')
+		.delete((req, res) => {
+			var _id = `${req.params.id}`;
+			Caigou.findById({ _id }).then((doc) => {
+			    if (!doc) {
+				  res.status(400).json({ message: `${doc} 不存在` })
+			    } else {
+				Caigou.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+			    }
+			})
+		  })
+              
 module.exports = caigouRouter

@@ -11,29 +11,28 @@
  
  
  const caigouGuanxiSchema = new Schema({
-     inviter: {
+    caigouGuanxiName: {
+        unique: true,
+        type: String
+    },
+     inviter:String, //邀请人
+     inviterSource:String, //邀请人来源
+     business:{
+        type: ObjectId,
+        ref: 'Business' //供应商
+    },
+     caigou:{
          type: ObjectId,
-         ref: 'Users' //邀请人
-     },
-     inviterSource:{
-         type:String //邀请人来源
-     },
-     supplierCompanyName:{
-         type: ObjectId,
-         ref: 'Suppliers' //供应商
-     },
-     buyerCompanyName:{
-         type: ObjectId,
-         ref:'Caigou'
+         ref:'Caigou'  //采购商
      },
      createdAt: {
-         type: Date,
-         defalut: Date.now()
-     },
-     updatedAt: {
-         type: Date,
-         defalut: Date.now()
-     }
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        defalut: Date.now
+    }
  }) 
  
 

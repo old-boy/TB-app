@@ -3,8 +3,11 @@ import {
       addCaigouInfo,
       getCaigou,
       addCaigou,
-      getBuyerInviter,
-      addBuyerInviter
+      getCaigouGuanxi,
+      addCaigouGuanxi,
+      delCaigou,
+      delCaigouInfo,
+      delCaigouGuanxi
  } from '@/api/caigou'
 
  const caigou = {
@@ -59,20 +62,51 @@ import {
                         })
                   })
             },
-            //查询邀请供应商
-            GetBuyerInviter({ commit }){
+            // 删除采购商 
+            DelCaigou({ commit }, data){
                   return new Promise((reslove, reject) => {
-                        getBuyerInviter().then(response => {
+                        delCaigou(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)
                         })
                   })
             },
-            //新增邀请供应商
-            AddBuyerInviter({ commit }, data){
+            
+            // 删除采购商 员工
+            DelCaigouInfo({ commit }, data){
                   return new Promise((reslove, reject) => {
-                        addBuyerInviter(data).then(response => {
+                        delCaigouInfo(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //查询邀请关系表
+            GetCaigouGuanxi({ commit }){
+                  return new Promise((reslove, reject) => {
+                        getCaigouGuanxi().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //新增邀请关系表
+            AddCaigouGuanxi({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        addCaigouGuanxi(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //删除邀请关系表
+            DelCaigouGuanxi({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delCaigouGuanxi(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)

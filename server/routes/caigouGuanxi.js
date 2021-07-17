@@ -10,10 +10,10 @@
  caigouGuanxiRouter.route(`/`)
        .get((req,res) => {
             CaigouGuanxi.find({})
-             .sort({'_id':1})
+             .sort({'_id':-1})
              .limit(10)
-             .populate('buyer', 'buyerCompanyName')
-             .populate('supplier', 'supplierCompanyName')
+             .populate('business', 'companyName')
+             .populate('caigou', 'buyerCompanyName')
              .exec()
              .then((data) => {
                    if (data) {
@@ -32,28 +32,28 @@
              })
        })
  
- supplierInviterRouter.route(`/add`)
+caigouGuanxiRouter.route(`/add`)
        .post((req,res) => {
-             const inviterName = req.body.inviterName
-             const supplierCompany = req.body.supplierCompany
-             const buyerCompany = req.body.buyerCompany
              const inviter = req.body.inviter
              const inviterSource = req.body.inviterSource
+             const business = req.body.business
+             const caigou = req.body.caigou
+             const caigouGuanxiName = req.body.caigouGuanxiName
              
-             SupplierInviter.findOne({inviterName:req.body.inviterName}).then((doc)　=> {
+             CaigouGuanxi.findOne({caigouGuanxiName:req.body.caigouGuanxiName}).then((doc)　=> {
                    if(doc){
                          res.status(400).json({ message: "巳存在" }).send(doc)
                    }else{
                    
                          let newData = {
-                               inviterName,
-                               supplierCompany,
-                               buyerCompany,
-                               inviter,
-                               inviterSource
+                              inviter,
+                              inviterSource,
+                              business,
+                              caigou,
+                              caigouGuanxiName
                            };
                
-                           let dataEntity = new SupplierInviter(newData)
+                           let dataEntity = new CaigouGuanxi(newData)
                            dataEntity.save(err => {
                                if (err) {
                                    res.json({
@@ -72,7 +72,18 @@
                    }
              })
        })
-               
+
+caigouGuanxiRouter.route('/del/:id')
+       .delete((req, res) => {
+             var _id = `${req.params.id}`;
+             CaigouGuanxi.findById({ _id }).then((doc) => {
+                 if (!doc) {
+                     res.status(400).json({ message: `${doc} 不存在` })
+                 } else {
+                  CaigouGuanxi.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+                 }
+             })
+         })           
  
- module.exports = supplierInviterRouter
+ module.exports = caigouGuanxiRouter
  
