@@ -8,35 +8,71 @@
                   class="dialog-box">
                   <span></span>
                   <el-form :model="form" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
-                        <el-form-item label="公司名称">
-                              <el-input v-model="form.buyerCompanyName" placeholder="请输入公司名称" clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label="公司地址">
-                              <el-input v-model="form.buyerCompanyAddres" placeholder="请输入公司地址" clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label="公司电话">
-                             <el-input v-model="form.buyerCompanyTel" placeholder="请输入公司电话" clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label="采购员">
-                             <el-select
-                                    v-model="form.caigouInfo"
-                                    placeholder="请选择公司采购员"
-                                    ref="selection"
-                                    @change="getValue"
-                              >
-                                    <el-option
-                                    v-for="item in caigouInfoList"
-                                    :key="item._id"
-                                    :label="item.buyerName"
-                                    :value="item._id"
-                                    />
-                              </el-select>
-                        </el-form-item>
+                        <el-form-item label="被邀请供应商" labelWidth="600">
+                <el-select
+                  v-model="form.supplierCompany"
+                  placeholder="请选择供应商"
+                >
+                  <el-option
+                    v-for="item in supplierCompanyList"
+                    :key="item._id"
+                    :label="item.companyName"
+                    :value="item._id"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="姓名">
+                <el-input
+                  v-model="form.buyerName"
+                  placeholder="请输入供应商姓名"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="电话">
+                <el-input
+                  v-model="form.buyerTel"
+                  placeholder="请输入供应商电话"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱">
+                <el-input
+                  v-model="form.buyerEmail"
+                  placeholder="请输入供应商地址"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="邀请码">
+                <el-input
+                  v-model="form.buyerAddress"
+                  placeholder="请输入邀请码"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="相关资源">
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="url"
+                  :preview-src-list="srcList"
+                >
+                </el-image>
+              </el-form-item>
+              <el-form-item label="审核状态">
+                <el-form-item label="状态">
+                  <el-switch
+                    v-model="form.productStatus"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                  >
+                  </el-switch>
+                </el-form-item>
                   </el-form>
                   
                   <span slot="footer">
                         <el-button size="small" @click="cancel">Cancel</el-button>
-                        <el-button :loading="loading" size="small" type="primary" @click="save">Save</el-button>
+                        <el-button @click="addModal" type="success" size="mini">同意</el-button>
+                        <el-button @click="addModal" type="danger" size="mini">拒绝</el-button>
+                        <el-button @click="addModal" type="danger" size="mini">删除</el-button>
                   </span>
             </el-dialog>
             
@@ -54,12 +90,12 @@ export default {
                   dialogVisible: false,
                   loading: false,
                   saveDataList:[],
-                  caigouInfoList:[],
+                  buyerInfoList:[],
                   form:{
                         buyerCompanyName:'',
                         buyerCompanyAddres:'',
                         buyerCompanyTel:'',
-                        caigouInfo:''
+                        buyerInfo:''
                   },
                   show: false,
                   display: true,
@@ -84,9 +120,9 @@ export default {
                   this.form.buyerInfo = value
             },
             getBuyerInfoList(){
-                  this.$store.dispatch('caigou/GetCaigouInfo').then((data) => {
+                  this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
                         if(data.status == 200){
-                              this.caigouInfoList = data.data.result
+                              this.buyerInfoList = data.data.result
                         }
                   })
             },
@@ -98,7 +134,7 @@ export default {
                         buyerCompanyName:'',
                         buyerCompanyAddres:'',
                         buyerCompanyTel:'',
-                        caigouInfo:''
+                        buyerInfo:''
                   }
                   
                   this.title = this.addTitle
@@ -112,16 +148,15 @@ export default {
                               let buyerCompanyName = this.form.buyerCompanyName
                               let buyerCompanyAddres = this.form.buyerCompanyAddres
                               let buyerCompanyTel = this.form.buyerCompanyTel
-                              let caigouInfo = this.form.caigouInfo
+                              let buyerInfo = this.form.buyerInfo
                              
-                             console.log('aaafasdfadfa ++ ' + this.form.caigouInfo)
                               var newForm = {
                                     buyerCompanyName,
                                     buyerCompanyAddres,
                                     buyerCompanyTel,
-                                    caigouInfo
+                                    buyerInfo
                               }
-                              this.$store.dispatch('caigou/AddCaigou',newForm).then((data) => {
+                              this.$store.dispatch('buyers/AddBuyer',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false
                                           this.dialogVisible = false

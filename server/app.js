@@ -24,12 +24,13 @@ var carousels = require('./routes/carousels')//轮播
 var suppliersReview = require('./routes/suppliersReview') //供应商审核
 var inviter = require('./routes/supplierInviter')  //邀请供应商
 var suppliers = require('./routes/suppliers')
-var buyers = require('./routes/buyers')
-var buyerInfo = require('./routes/buyerInfo')
+var caigou = require('./routes/caigou')
+var caigouInfo = require('./routes/caigouInfo')
 var business = require('./routes/business')  
 var productCatalog = require('./routes/productCatalog')
 var orders = require('./routes/order')
 var products = require('./routes/product')
+var upload = require('./routes/upload')
 
 
 var app = express()
@@ -142,14 +143,15 @@ app.use('/customer',customers)
 app.use('/online/showroom',onlineShowrooms)
 app.use('/carousel',carousels)
 app.use('/api/supplier',suppliersReview)
-app.use('/api/buyer',buyers)
-app.use('/api/buyerInfo', buyerInfo)
+app.use('/api/caigou',caigou)
+app.use('/api/caigou/info', caigouInfo)
 app.use('/api/buyer/inviter',inviter)
 app.use('/api/business',business)
 app.use('/api/product/catalog', productCatalog)
-app.use('/supplier',suppliers)
+// app.use('/supplier',suppliers)
 app.use('/api/order',orders)
 app.use('/api/product',products)
+app.use('/api/upload/file',upload)
 
 
 

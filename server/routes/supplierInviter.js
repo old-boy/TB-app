@@ -1,16 +1,19 @@
+/**采购商管理-邀请
+ * 
+ */
+
 var express = require('express')
 var supplierInviterRouter = express.Router()
 
 var SupplierInviter = require('../app/models/supplierInviter')
 
-//查询品牌
 supplierInviterRouter.route(`/`)
 	.get((req,res) => {
 		SupplierInviter.find({})
 		.sort({'_id':1})
 		.limit(10)
-            .populate('Buyers', 'buyerCompanyName')
-            .populate('Supplier', 'supplierCompanyName')
+            .populate('buyer', 'buyerCompanyName')
+            .populate('supplier', 'supplierCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {

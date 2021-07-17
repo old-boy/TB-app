@@ -20,12 +20,12 @@
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="productName" label="商品名称"> </el-table-column>
-      <el-table-column prop="productCatalog" label="商品分类">
+      <el-table-column prop="productCatalog.catalogName" label="商品分类">
         
       </el-table-column>
       <el-table-column prop="productMainPicture" label="商品主图">
       </el-table-column>
-      <el-table-column prop="brandName" label="品牌">
+      <el-table-column prop="brandName.brandName" label="品牌">
       </el-table-column>
       <el-table-column prop="productPrice" label="商品售价"></el-table-column>
       <el-table-column prop="productTotal" label="库存"></el-table-column>

@@ -9,7 +9,7 @@ productCatalogRouter.route(`/all`)
 		ProductCatalog.find({})
 		.sort({'_id':1})
 		.limit(10)
-		.populate('Product','productTotal')
+		.populate('product','productTotal productTotal')
 		.exec()
 		.then((data) => {
 			if (data) {

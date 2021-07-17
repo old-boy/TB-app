@@ -12,7 +12,7 @@ const platformRouter = {
     children: [
         {
           path: 'carousel',
-          component: () => import('@/views/platformManagement/carousel'),
+          component: () => import('@/views/platformManagement/carousel/index'),
           name: 'Carousel',
           meta: { title: '轮播图', noCache: true,icon:'el-icon-money' }
         },

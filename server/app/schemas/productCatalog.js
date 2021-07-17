@@ -6,7 +6,7 @@ const ObjectId = Schema.Types.ObjectId
 
 const productCaltalogSchema = new Schema({
     catalogName: String,
-    productTotalNum: {
+    product: {
         type: ObjectId,
         ref: 'Product'
     },

@@ -41,6 +41,14 @@ export function addMerchant(data) {
       })
 }
 
+// 删除商户
+export function delMerchant(data) {
+      return request({
+        url:`/business/del/${data}`,
+        method: 'delete'
+      })
+}
+
 // 获取产品分类列表
 export function getProductCatalog(){
       return request({

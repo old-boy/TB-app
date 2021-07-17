@@ -9,8 +9,8 @@ productRouter.route(`/`)
     Product.find({})
     .sort({'_id':-1})
     .limit(10)
-    .populate('ProductCatalog catalogName')
-    .populate('Brand','brandName brandDescription')
+    .populate('productCatalog', 'catalogName')
+    .populate('brandName','brandName brandDescription')
     .then((data) => {
         if (data) {
             res.json({

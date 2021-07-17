@@ -10,9 +10,9 @@ const supplierInviterSchema = new Schema({
         type: ObjectId,
         ref: 'Supplier' 
     },
-    buyerCompany: {
+    buyer: {
         type: ObjectId,
-        ref: 'Buyer' 
+        ref: 'Caigou' 
     },
     inviter:String,
     inviterSource:String,

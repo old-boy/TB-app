@@ -18,9 +18,9 @@
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="orderNo" label="订单编号"> </el-table-column>
-      <el-table-column prop="productCatalog" label="商品分类"></el-table-column>
+      <el-table-column prop="productCatalog.catalogName" label="商品分类"></el-table-column>
       <el-table-column prop="productNum" label="商品数量"></el-table-column>
-      <el-table-column prop="supplierCompanyName" label="供应商"></el-table-column>
+      <el-table-column prop="supplier.supplierCompanyName" label="供应商"></el-table-column>
       <el-table-column prop="buyerCompanyName" label="采购商"></el-table-column>
       <el-table-column prop="username" label="收货人"></el-table-column>
       <el-table-column prop="orderStatus" label="订单状态">

@@ -93,7 +93,7 @@ export default {
                   this.dialogVisible = false
             },
             getBuyerList(){
-                  this.$store.dispatch('buyers/GetBuyer').then((data) => {
+                  this.$store.dispatch('caigou/GetCaigou').then((data) => {
                         if(data.status == 200){
                         this.loadingFlag = false
                         this.buyerCompanyList = data.data.result
@@ -140,7 +140,7 @@ export default {
                                     buyerCompanyName
                               }
                               console.log('add +++' + newForm)
-                              this.$store.dispatch('buyers/AddBuyerInfo',newForm).then((data) => {
+                              this.$store.dispatch('caigou/AddCaigouInfo',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false
                                           this.dialogVisible = false

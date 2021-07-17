@@ -4,34 +4,34 @@
 
 
 // 获取采购商员工列表
-export function getBuyerInfo(){
+export function getCaigouInfo(){
       return request({
-            url:'/buyerInfo/',
+            url:'/caigou/info/',
             method:'get'
       })
 }
 
 // 添加采购商员工
-export function addBuyerInfo(data) {
+export function addCaigouInfo(data) {
       return request({
-        url:'/buyerInfo/add',
+        url:'/caigou/info/add',
         method: 'post',
         data
       })
 }
 
 // 获取采购商列表
-export function getBuyer(){
+export function getCaigou(){
       return request({
-            url:'/buyer/',
+            url:'/caigou/',
             method:'get'
       })
 }
 
 // 添加采购商
-export function addBuyer(data) {
+export function addCaigou(data) {
       return request({
-        url:'/buyer/add',
+        url:'/caigou/add',
         method: 'post',
         data
       })

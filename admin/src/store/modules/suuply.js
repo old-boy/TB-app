@@ -1,6 +1,7 @@
 import {
       getMerchant,
       addMerchant,
+      delMerchant,
       getProductCatalog,
       addProductCatalog,
       getProductList,
@@ -38,6 +39,16 @@ const suuply = {
             MerchantAdd({ commit }, data){
                   return new Promise((reslove, reject) => {
                         addMerchant(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //删除商户
+            DelMerchant({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delMerchant(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)

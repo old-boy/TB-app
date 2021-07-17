@@ -18,14 +18,12 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="companyName" label="公司名称"> </el-table-column>
+      <el-table-column prop="companyName" label="供应商"> </el-table-column>
       <el-table-column prop="factoryName" label="厂家名称"></el-table-column>
       <el-table-column prop="brandNumber" label="品牌数量"> </el-table-column>
       <el-table-column prop="invitationPeople" label="邀请人">
       </el-table-column>
-      <el-table-column prop="supplierCompanyName" label="供应商">
-      </el-table-column>
-      <el-table-column prop="buyerCompanyName" label="采购商">
+      <el-table-column prop="caigou.buyerCompanyName" label="采购商">
       </el-table-column>
 
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
@@ -61,7 +59,8 @@ export default {
   data() {
     return {
       tableData: [],
-      loadingFlag: false
+      loadingFlag: false,
+      id:null
     };
   },
   created() {
@@ -87,7 +86,28 @@ export default {
       this.$refs.edit.add()
     },
     editModal() {},
-    removeModal() {}
+    removeModal(index,row) {
+      this.id = row._id
+      var data = this.id
+      this.$confirm('是否确认要删除?', '提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      })
+      .then( async () => {
+                await this.$store.dispatch('suuply/DelMerchant',data)
+                this.getDataList()
+                this.$message({
+                    type:'success',
+                    message:'删除成功'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
+    }
   }
 };
 </script>

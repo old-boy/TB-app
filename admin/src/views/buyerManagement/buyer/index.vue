@@ -20,13 +20,13 @@
       <el-table-column prop="buyerCompanyName" label="公司名称"> </el-table-column>
       <el-table-column prop="buyerCompanyTel" label=" 公司电话"></el-table-column>
       <el-table-column prop="buyerCompanyAddres" label="公司地址"></el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="buyerAvatar"
         label="采购员头像"
-      ></el-table-column>
-      <el-table-column prop="buyerName" label="采购员姓名"></el-table-column>
-      <el-table-column prop="buyerTel" label="采购员电话"></el-table-column>
-      <el-table-column prop="buyerEmail" label="采购员邮箱"></el-table-column>
+      ></el-table-column> -->
+      <el-table-column prop="caigouInfo.buyerName" label="采购员姓名"></el-table-column>
+      <el-table-column prop="caigouInfo.buyerTel" label="采购员电话"></el-table-column>
+      <el-table-column prop="caigouInfo.buyerEmail" label="采购员邮箱"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
@@ -70,7 +70,7 @@ export default {
     },
     getBuyerList(){
       this.loadingFlag = true
-      this.$store.dispatch('buyers/GetBuyer').then((data) => {
+      this.$store.dispatch('caigou/GetCaigou').then((data) => {
             if(data.status == 200){
               this.loadingFlag = false
               this.tableData = data.data.result
@@ -78,7 +78,9 @@ export default {
           })
     },
     editModal() {},
-    removeModal() {}
+    removeModal() {
+      
+    }
   }
 };
 </script>

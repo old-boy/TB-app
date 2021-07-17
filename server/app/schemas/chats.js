@@ -11,7 +11,7 @@ const chatSchema = new Schema({
     },
     buyerStaff: {
         type: ObjectId,
-        ref: 'Buyers' //采购商
+        ref: 'Caigou' //采购商
     },
     customer:{
         type: ObjectId,

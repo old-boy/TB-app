@@ -1,6 +1,17 @@
 <template>
   <div class="upload">
-    <el-upload action="#" list-type="picture-card" :auto-upload="false">
+    <el-upload 
+      ref="upload"
+      list-type="picture-card" 
+      :file-list="fileList"
+      :multiple="false"
+      :limit="1"
+      :auto-upload="false"
+      :http-request="uploadFile"
+      accept=".xlsx,.xls,.csv,.txt,.jpg,.png"
+      action=""
+      class="upload"
+      >
       <i slot="default" class="el-icon-plus"></i>
       <div slot="file" slot-scope="{ file }">
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
@@ -40,7 +51,11 @@
       return {
         dialogImageUrl: '',
         dialogVisible: false,
-        disabled: false
+        disabled: false,
+        fileList: [],
+        form: {
+          ishead: 1
+        }
       };
     },
     methods: {
@@ -53,7 +68,35 @@
       },
       handleDownload(file) {
         console.log(file);
+      },
+      uploadFile(item){
+        const fileObj = item.file
+        const form = new FormData()// FormData 对象
+        form.append('file', fileObj)// 文件对象
+        form.append('ishead', this.form.ishead)
+        this.$store.dispatch('upload/AddFile', form).then(response => {
+            this.fileList = []
+            this.$message({
+              message: '添加成功',
+              showClose: true,
+              type: 'success'
+            })
+        })
       }
+      // save(file){
+      //   this.$store.dispatch('upload/AddFile',file).then((data) => {
+      //     console.log(data)
+      //       if(data.status == 200){
+      //             this.loading = false
+      //             this.$message({
+      //                   message: '添加成功',
+      //                   showClose: true,
+      //                   type: 'success'
+      //             })
+      //       }
+      //   })
+      //   // this.$refs.upload.submit()
+      // }
     }
   }
 </script>

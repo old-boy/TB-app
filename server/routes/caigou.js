@@ -1,17 +1,17 @@
 var express = require('express')
-var buyerRouter = express.Router()
+var caigouRouter = express.Router()
 
-var Buyer = require('../app/models/buyers')
+var Caigou = require('../app/models/caigou')
 
 
 
 //查询
-buyerRouter.route(`/`)
+caigouRouter.route(`/`)
 	.get((req,res) => {
-		Buyer.find({})
+		Caigou.find({})
 		.sort({'_id':1})
 		.limit(10)
-		.populate('BuyerInfo', 'buyerName buyerTel buyerEmail buyerAddress buyerAvatar')
+		.populate('caigouInfo', 'buyerName buyerTel buyerEmail buyerAddress buyerAvatar')
 		.exec()
 		.then((data) => {
 			if (data) {
@@ -29,25 +29,26 @@ buyerRouter.route(`/`)
 			}
 		})
 	})
-
-buyerRouter.route(`/add`)
+caigouRouter.route(`/add`)
 	.post((req,res) => {
-		const buyerCompanyName = req.body.buyerCompanyName;
-		const buyerCompanyAddres = req.body.buyerCompanyAddres;
-		const buyerCompanyTel = req.body.buyerCompanyTel;
-		const buyerInfo = req.body.buyerInfo;
+		const buyerCompanyName = req.body.buyerCompanyName
+		const buyerCompanyAddres = req.body.buyerCompanyAddres
+		const buyerCompanyTel = req.body.buyerCompanyTel
+		const caigouInfo = req.body.caigouInfo
 		
-		Buyer.findOne({buyerCompanyName:req.body.buyerCompanyName}).then((doc)　=> {
+		Caigou.findOne({buyerCompanyName:req.body.buyerCompanyName}).then((doc)　=> {
 			if(doc){
 				res.status(400).json({ message: "巳存在" }).send(doc)
 			}else{
+			
 				let newData = {
 					buyerCompanyName,
 					buyerCompanyAddres,
 					buyerCompanyTel,
-					buyerInfo
+					caigouInfo
 				  };
-				  let dataEntity = new Buyer(newData)
+		  
+				  let dataEntity = new Caigou(newData)
 				  dataEntity.save(err => {
 					if (err) {
 					    res.json({
@@ -67,6 +68,4 @@ buyerRouter.route(`/add`)
 		})
 	})
 
-                
-
-module.exports = buyerRouter
+module.exports = caigouRouter

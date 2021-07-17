@@ -6,12 +6,12 @@ var Order = require('../app/models/order')
 orderRouter.route(`/`)
 	.get((req,res) => {
 		Order.find({})
-		.sort({'_id':1})
+		.sort({'_id':-1})
 		.limit(10)
-		.populate('Product', 'productName')
-		.populate('ProductCatalog', 'productCatalog')
-		.populate('Suppliers', 'supplierCompanyName')
-		.populate('Buyers', 'buyerCompanyName')
+		.populate('product', 'productName productTotal')
+		.populate('productCatalog', 'catalogName')
+		.populate('business', 'companyName')
+		.populate('buyer','buyerCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {
@@ -33,27 +33,24 @@ orderRouter.route(`/`)
 orderRouter.route(`/add`)
 	.post((req,res) => {
 		const orderNo = req.body.orderNo;
-		const productCatalog = req.body.productCatalog;
+		const orderDate = req.body.orderDate;
+		const orderPrice = req.body.orderPrice;
 		const productNum = req.body.productNum;
-		const buyerCompanyName = req.body.buyerCompanyName;
 		const username = req.body.username;
 		const userTel = req.body.userTel;
-		const orderDate = req.body.orderDate;
+		const productCatalog = req.body.productCatalog;
 		const product = req.body.product;
-		const orderStatus = req.body.orderStatus;
-		const orderPrice = req.body.orderPrice;
-		const orderCertificate = req.body.orderCertificate;
+		const buyerCompanyName = req.body.buyerCompanyName;
 		const supplierCompanyName = req.body.supplierCompanyName;
+		const orderStatus = req.body.orderStatus;
+		const orderCertificate = req.body.orderCertificate;
 
+		console.log('orderEntity  ===='  + buyerCompanyName )
 		Order.findOne({orderNo:req.body.orderNo}).then((doc)　=> {
 			if(doc){
 				res.status(400).json({ message: "巳存在" }).send(doc)
 			}else{
-				let nowDate = new Date()
-				let year = nowDate.getYear()
-				let mon = nowDate.getMonth()
-				let day = nowDate.getDay()
-				let createdAt = nowDate
+				
 				let newOrder = {
 					orderNo,
 					productCatalog,

@@ -6,7 +6,8 @@ import settings from './modules/settings'
 import user from './modules/user'
 import tagView from './modules/tagsView'
 import suuply from './modules/suuply'
-import buyers from './modules/buyers'
+import caigou from './modules/caigou'
+import upload from './modules/upload'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     user,
     tagView,
     suuply,
-    buyers
+    caigou,
+    upload
   },
   getters
 })

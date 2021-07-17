@@ -56,16 +56,12 @@
                         <el-form-item label="商品主图">
                              <Upload ref="upload" v-model="form.productMainPicture" />
                         </el-form-item>
-                        
-                        
                   </el-form>
-                  
                   <span slot="footer">
                         <el-button size="small" @click="cancel">Cancel</el-button>
                         <el-button :loading="loading" size="small" type="primary" @click="save">Save</el-button>
                   </span>
             </el-dialog>
-            
       </div>
 </template>
 

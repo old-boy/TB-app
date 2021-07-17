@@ -9,30 +9,29 @@ const orderSchema = new Schema({
         unique: true,
         type: String//订单号
     },
+    orderDate: Date,//订单日期
+    orderPrice:String, //订单金额
+    productNum: Number, //商品数量
+    username: String, //收货人
+    userTel:String, //收货人手机号
     productCatalog: {
         type: ObjectId,
         ref: 'ProductCatalog' //商品分类 
     },
-    productNum: Number, //商品数量
-    buyerCompanyName:{
-        type: ObjectId,
-        ref: 'Buyers' //采购商
-    },
-    username: String, //收货人
-    userTel:String, //收货人手机号
-    orderDate: Date, //下单时间
     product: {
         type: ObjectId,
         ref: 'Product' //商品名称
     },
-   
-    orderStatus:Boolean, //订单状态
-    orderPrice:String, //订单金额
-    orderCertificate:Array,//交易凭证
-    supplierCompanyName:{
+    buyer:{
         type: ObjectId,
-        ref: 'Suppliers' //供应商
+        ref: 'Caigou' //采购商
     },
+    business:{
+        type: ObjectId,
+        ref: 'Supplier' //供应商
+    },
+    orderStatus:Boolean, //订单状态
+    // orderCertificate:Array,//交易凭证
     createdAt: {
         type: Date,
         default: Date.now
@@ -42,14 +41,5 @@ const orderSchema = new Schema({
         defalut: Date.now
     }
 }) 
-
-// orderSchema.pre('save', function() {
-//     if (this.isNew) {
-//         this.createdAt = this.updatedAt = Date.now()
-//     } else {
-//         this.updatedAt = Date.now()
-//     }
-//     next()
-// })
 
 module.exports = orderSchema

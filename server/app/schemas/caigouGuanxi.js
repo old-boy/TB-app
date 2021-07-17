@@ -10,7 +10,7 @@
  const ObjectId = Schema.Types.ObjectId
  
  
- const buyerLinkSchema = new Schema({
+ const caigouGuanxiSchema = new Schema({
      inviter: {
          type: ObjectId,
          ref: 'Users' //邀请人
@@ -24,7 +24,7 @@
      },
      buyerCompanyName:{
          type: ObjectId,
-         ref:'Buyers'
+         ref:'Caigou'
      },
      createdAt: {
          type: Date,
@@ -36,13 +36,5 @@
      }
  }) 
  
- buyerLinkSchema.pre('save', function() {
-     if (this.isNew) {
-         this.createdAt = this.updatedAt = Date.now()
-     } else {
-         this.updatedAt = Date.now()
-     }
-     next()
- })
- 
- module.exports = buyerLinkSchema
+
+ module.exports = caigouGuanxiSchema

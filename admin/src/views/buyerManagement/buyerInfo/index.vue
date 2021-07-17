@@ -64,7 +64,7 @@ export default {
     },
     getBuyerInfoList(){
       this.loadingFlag = true
-      this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
+      this.$store.dispatch('caigou/GetCaigouInfo').then((data) => {
         console.log('catalog  +++' + data)
             if(data.status == 200){
               this.loadingFlag = false

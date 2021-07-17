@@ -20,19 +20,20 @@
                         <el-form-item label="邀请人">
                                <el-input v-model="form.invitationPeople" placeholder="请输入邀请人"></el-input>
                         </el-form-item>
-                        <el-form-item label="选择被邀请供应商" labelWidth="600">
-                              <el-select v-model="form.supplierCompanyName" placeholder="请选择供应商" multiple >
+                        <!-- <el-form-item label="选择被邀请供应商" labelWidth="600">
+                              <el-select v-model="form.supplierCompanyName" placeholder="请选择供应商" >
                                     <el-option
                                     v-for="item in supplierCompanyList"
                                     :key="item.id"
                                     :label="item.companyName"
-                                    :value="item.id"/>
+                                    :value="item._id"
+                                    @change="getBusinessValue"/>
                               </el-select>
-                        </el-form-item>
+                        </el-form-item> -->
                         <el-form-item label="选择被邀请采购商" labelWidth="600">
-                              <el-select v-model="form.buyerCompanyName" placeholder="请选择采购" >
+                              <el-select v-model="form.caigou" placeholder="请选择采购" >
                                     <el-option
-                                    v-for="item in buyerCompanyList"
+                                    v-for="item in caiGouCompanyList"
                                     :key="item.id"
                                     :label="item.buyerCompanyName"
                                     :value="item._id"
@@ -62,14 +63,13 @@ export default {
                   dialogVisible: false,
                   loading: false,
                   supplierCompanyList:[],
-                  buyerCompanyList:[],
+                  caiGouCompanyList:[],
                   form:{
                         companyName:'',
                         factoryName:'',
                         brandNumber:'',
                         invitationPeople:'',
-                        supplierCompanyName:[],
-                        buyerCompanyName:[]
+                        caigou:''
                   },
                   show: false,
                   display: true,
@@ -83,9 +83,6 @@ export default {
                         ],
                         invitationPeople: [
                               { required: true, message: '请输入邀请人名称', trigger: 'blur' }
-                        ],
-                        supplierCompanyName: [
-                              { required: true, message: '请选择供应商', trigger: 'blur' }
                         ],
                         buyerCompanyName: [
                               { required: true, message: '请选择采购商', trigger: 'blur' }
@@ -105,30 +102,21 @@ export default {
                   this.dialogVisible = false
             },
             getValue(value){
-                  this.form.buyerCompanyName = value
+                  this.form.caigou = value
             },
-            getBuyerList(){
-                  this.$store.dispatch('buyers/GetBuyer').then((data) => {
+          
+            getCaigouList(){
+                  this.$store.dispatch('caigou/GetCaigou').then((data) => {
                         if(data.status == 200){
-                        this.loadingFlag = false
-                        this.buyerCompanyList = data.data.result
+                              this.loadingFlag = false
+                              this.caiGouCompanyList = data.data.result
                         }
                   })
             },
             getSupplierCompanyList(){
                   this.$store.dispatch('suuply/MerchantList').then((data) => {
                         if(data.status == 200){
-                              let arr = data.data.result
-                              arr.map((value,key) => {
-                                    let companyName = value.companyName
-                                    let id = value._id
-                                    let itemEntity = {
-                                          companyName,
-                                          id
-                                    }
-                                    this.supplierCompanyList.push(itemEntity)
-                              })
-                              
+                              this.supplierCompanyList = data.data.result
                         }
                   })
             },
@@ -141,33 +129,32 @@ export default {
                         factoryName:'',
                         brandNumber:'',
                         invitationPeople:'',
-                        supplierCompanyName:'',
-                        buyerCompanyName:''
+                        caigou:''
                   }
                   this.supplierCompanyList = []
                   this.title = this.addTitle
                   this.getSupplierCompanyList()
-                  this.getBuyerList()
+                  this.getCaigouList()
             },
             edit(){},
             save(){
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let supplierCompanyList = []
-                              supplierCompanyList.push(this.form.supplierCompanyName)
-                             
-                              let buyerCompanyName = this.form.buyerCompanyName
-                              buyerCompanyList.push(this.form.buyerCompanyName)
+                           const companyName = this.form.companyName
+                           const factoryName = this.form.factoryName
+                           const brandNumber = this.form.brandNumber
+                           const invitationPeople = this.form.invitationPeople
+                           const caigou = this.form.caigou
+
                               var newForm = {
-                                    companyName:this.form.companyName,
-                                    factoryName:this.form.factoryName,
-                                    brandNumber:this.form.brandNumber,
-                                    invitationPeople: this.form.invitationPeople ? this.form.invitationPeople:'',
-                                    supplierCompanyName: supplierCompanyList,
-                                    buyerCompanyName
+                                    companyName,
+                                    factoryName,
+                                    brandNumber,
+                                    invitationPeople,
+                                    caigou
                               }
-                              console.log('add +++' + newForm)
+                              console.log('添加商户 +++' + newForm)
                               this.$store.dispatch('suuply/MerchantAdd',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false
@@ -178,8 +165,8 @@ export default {
                                                 type: 'success'
                                           })
                                     }
+                                    this.$parent.getDataList()
                               })
-                         
                         }
                   })
             },

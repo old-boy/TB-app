@@ -11,7 +11,7 @@ const spacesSchema = new Schema({
     },
     buyer: {
         type: ObjectId,
-        ref: 'Buyers' //采购商
+        ref: 'Caigou' //采购商
     },
     supplier:{
         type: ObjectId,

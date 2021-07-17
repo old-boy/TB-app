@@ -12,15 +12,15 @@ const Schema = mongoose.Schema
 // 获取ObjectId,populate需用到，用于表与表的关联
 const ObjectId = Schema.Types.ObjectId
 
-const buyerInfoSchema = new Schema({
+const caigouInfoSchema = new Schema({
     // buyerAvatar:String,
     buyerName:String,
     buyerTel:String,
     buyerEmail:String,
     buyerAddress:String,
-    buyerCompanyName:{
+    caigou:{
         type: ObjectId,
-        ref: 'Buyers' //采购商
+        ref: 'Caigou' //采购商
     },
     createdAt: {
         type: Date,
@@ -32,13 +32,4 @@ const buyerInfoSchema = new Schema({
     }
 }) 
 
-// buyerInfoSchema.pre('save', function() {
-//     if (this.isNew) {
-//         this.createdAt = this.updatedAt = Date.now()
-//     } else {
-//         this.updatedAt = Date.now()
-//     }
-//     next()
-// })
-
-module.exports = buyerInfoSchema
+module.exports = caigouInfoSchema

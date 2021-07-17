@@ -1,22 +1,43 @@
 <template>
       <div class="edit-dialog">
             <el-dialog
-                  title="title"
+                  :title="title"
                   :visible.sync="dialogVisible"
                   width="30%"
                   @close="handleClose"
                   class="dialog-box">
                   <span></span>
                   <el-form :model="form" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
-                        <el-form-item label="分类名称">
-                              <el-input v-model="form.catalogName" placeholder="请输入产品分类名称"></el-input>
+                        <el-form-item label="序号">
+                              <el-input v-model="form.number" placeholder="请输入序号" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="分类状态">
+                        <el-form-item label="标题">
+                              <el-input v-model="form.title" placeholder="请输入标题" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label="跳转位置">
+                             <el-input v-model="form.url" placeholder="请输入跳转位置链接" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label="状态">
                              <el-switch
-                              v-model="form.status"
+                              v-model="form.productStatus"
                               active-color="#13ce66"
                               inactive-color="#ff4949">
                               </el-switch>
+                        </el-form-item>
+                        <el-form-item label="操作人">
+                             <el-select
+                                    v-model="form.buyerInfo"
+                                    placeholder="请选择员工"
+                                    ref="selection"
+                                    @change="getValue"
+                              >
+                                    <el-option
+                                    v-for="item in buyerInfoList"
+                                    :key="item._id"
+                                    :label="item.buyerName"
+                                    :value="item._id"
+                                    />
+                              </el-select>
                         </el-form-item>
                   </el-form>
                   
@@ -31,19 +52,21 @@
 
 <script>
 export default {
+      name:'Edit',
       data() {
             return {
-                  title:'新增分类',
-                  addTitle:'',
-                  editTitle:'编辑分类',
+                  title:'',
+                  addTitle:'新增',
+                  editTitle:'编辑',
                   dialogVisible: false,
                   loading: false,
                   saveDataList:[],
-                  productList:[],
+                  buyerInfoList:[],
                   form:{
-                        catalogName:'',
-                        status:'',
-                        product:''
+                        buyerCompanyName:'',
+                        buyerCompanyAddres:'',
+                        buyerCompanyTel:'',
+                        buyerInfo:''
                   },
                   show: false,
                   display: true,
@@ -64,10 +87,13 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
-            getProduct(){
-                  this.$store.dispatch('suuply/GetProductList').then((data) => {
+            getValue(value){
+                  this.form.buyerInfo = value
+            },
+            getBuyerInfoList(){
+                  this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
                         if(data.status == 200){
-                              this.form.product = data.data.result
+                              this.buyerInfoList = data.data.result
                         }
                   })
             },
@@ -76,30 +102,33 @@ export default {
                   this.disable = false
                   this.form = {
                         id:null,
-                        catalogName:'',
-                        status:true
+                        buyerCompanyName:'',
+                        buyerCompanyAddres:'',
+                        buyerCompanyTel:'',
+                        buyerInfo:''
                   }
                   
                   this.title = this.addTitle
-                  this.getProduct()
+                  this.getBuyerInfoList()
             },
             edit(){},
             save(){
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let catalogName = this.form.catalogName
-                              let catalogStatus = this.form.status
+                              let buyerCompanyName = this.form.buyerCompanyName
+                              let buyerCompanyAddres = this.form.buyerCompanyAddres
+                              let buyerCompanyTel = this.form.buyerCompanyTel
+                              let buyerInfo = this.form.buyerInfo
                              
-                              
                               var newForm = {
-                                    catalogName,
-                                    catalogStatus
+                                    buyerCompanyName,
+                                    buyerCompanyAddres,
+                                    buyerCompanyTel,
+                                    buyerInfo
                               }
-                              console.log('add +++' + newForm)
-                              this.$store.dispatch('suuply/AddProductCatalog',newForm).then((data) => {
+                              this.$store.dispatch('buyers/AddBuyer',newForm).then((data) => {
                                     if(data.status == 200){
-                                          console.log('saveCatalog ++' + data)
                                           this.loading = false
                                           this.dialogVisible = false
                                           this.$message({
@@ -109,7 +138,7 @@ export default {
                                           })
                                     }
                               })
-                         
+                              this.$parent.getBuyerList()
                         }
                   })
             },

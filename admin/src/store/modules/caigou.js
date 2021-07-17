@@ -1,13 +1,13 @@
 import { 
-      getBuyerInfo,
-      addBuyerInfo,
-      getBuyer,
-      addBuyer,
+      getCaigouInfo,
+      addCaigouInfo,
+      getCaigou,
+      addCaigou,
       getBuyerInviter,
       addBuyerInviter
- } from '@/api/buyers'
+ } from '@/api/caigou'
 
- const buyers = {
+ const caigou = {
       namespaced: true,
       state: {
             buyersList: []
@@ -19,9 +19,9 @@ import {
       },
       actions:{
             //查询采购商员工
-            GetBuyerInfo({ commit }){
+            GetCaigouInfo({ commit }){
                   return new Promise((reslove, reject) => {
-                        getBuyerInfo().then(response => {
+                        getCaigouInfo().then(response => {
                               commit('SET_BUYERS_LIST',response)
                               reslove(response)
                         }).catch(err => {
@@ -30,9 +30,9 @@ import {
                   })
             },
             //新增员工
-            AddBuyerInfo({ commit }, data){
+            AddCaigouInfo({ commit }, data){
                   return new Promise((reslove, reject) => {
-                        addBuyerInfo(data).then(response => {
+                        addCaigouInfo(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)
@@ -40,9 +40,9 @@ import {
                   })
             },
             //查询采购商
-            GetBuyer({ commit }){
+            GetCaigou({ commit }){
                   return new Promise((reslove, reject) => {
-                        getBuyer().then(response => {
+                        getCaigou().then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)
@@ -50,9 +50,9 @@ import {
                   })
             },
             //新增采购商
-            AddBuyer({ commit }, data){
+            AddCaigou({ commit }, data){
                   return new Promise((reslove, reject) => {
-                        addBuyer(data).then(response => {
+                        addCaigou(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)
@@ -82,4 +82,4 @@ import {
       }
 }
 
-export default buyers
+export default caigou

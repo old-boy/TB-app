@@ -9,23 +9,23 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
-const buyerSchema = new Schema({
+const caigouSchema = new Schema({
     buyerCompanyName:String,
     buyerCompanyAddres:String,
     buyerCompanyTel:String,
-    buyerInfo: {
+    caigouInfo: {
         type: ObjectId,
-        ref: 'BuyerInfo' //采购商人员基本信息表
+        ref: 'CaigouInfo' //采购商人员基本信息表
     },
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 
 
-module.exports = buyerSchema
+module.exports = caigouSchema

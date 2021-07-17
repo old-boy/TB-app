@@ -2,7 +2,7 @@
   <div class="buyer app-container">
     <el-row class="top-options">
       <el-col :span="12" class="title">
-        供应商审核
+        采购商审核
       </el-col>
       <el-col :span="1" :offset="10" class="options">
         <el-button @click="addModal" type="success" size="mini">添加</el-button>
@@ -46,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "SupplyAudit",
+  name: "BuyerAudit",
   data() {
     return {
       tableData: [],

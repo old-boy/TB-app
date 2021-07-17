@@ -16,18 +16,11 @@ const ObjectId = Schema.Types.ObjectId
 const businessSchema = new Schema({
     companyName: String, 
     factoryName:String,
-    brandNumber:{
-        type: ObjectId,
-        ref: 'Brand' //品牌数量
-    },
+    brandNumber:Number,
     invitationPeople:String,
-    supplierCompanyName:{
+    caigou:{
         type: ObjectId,
-        ref: 'Suppliers' //供应商
-    },
-    buyerCompanyName:{
-        type: ObjectId,
-        ref: 'Buyers' //采购商
+        ref: 'Caigou' //采购商
     },
     createdAt: {
         type: Date,

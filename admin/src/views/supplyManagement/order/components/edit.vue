@@ -42,20 +42,8 @@
                   placeholder="请输入订单金额"
                 ></el-input>
               </el-form-item>
-
-              <el-form-item label="采购商">
-                <el-select
-                  v-model="form.buyerCompanyName"
-                  placeholder="请选择采购商"
-                >
-                  <el-option
-                  v-for="item in buyerCompanyList"
-                  :key="item.id"
-                  :label="item.buyerCompanyName"
-                  :value="item._id"
-                  @change="getValue"
-                  />
-                </el-select>
+              <el-form-item :span="4" label="产品数量">
+                <el-input v-model="form.productNum"></el-input>
               </el-form-item>
               <el-form-item label="收货人">
                 <el-input v-model="form.username"></el-input>
@@ -73,7 +61,8 @@
                     v-for="item in productList"
                     :key="item.id"
                     :label="item.productName"
-                    :value="item.productName"
+                    :value="item._id"
+                    @change="getProductValue"
                   />
                 </el-select>
               </el-form-item>
@@ -86,24 +75,37 @@
                     v-for="item in catalogNameList"
                     :key="item.id"
                     :label="item.catalogName"
-                    :value="item.catalogName"
+                    :value="item._id"
+                    @change="getCatalogValue"
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item :span="4" label="产品数量">
-                <el-input v-model="form.productNum"></el-input>
-              </el-form-item>
+              
               <el-form-item label="供应商">
                 <el-select
                   v-model="form.supplierCompanyName"
                   placeholder="请选择供应商"
-                  multiple
                 >
                   <el-option
                     v-for="item in supplierCompanyList"
                     :key="item.id"
                     :label="item.companyName"
-                    :value="item.companyName"
+                    :value="item._id"
+                    @change="getSupplierValue"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="采购商">
+                <el-select
+                  v-model="form.buyerCompanyName"
+                  placeholder="请选择采购商"
+                >
+                  <el-option
+                  v-for="item in buyerCompanyList"
+                  :key="item.id"
+                  :label="item.buyerCompanyName"
+                  :value="item._id"
+                  @change="getValue"
                   />
                 </el-select>
               </el-form-item>
@@ -153,6 +155,7 @@ export default {
       productList: [],
       form: {
         orderNo: "",
+        product:'',
         productCatalog: "",
         productNum: "",
         supplierCompanyName: "",
@@ -162,7 +165,7 @@ export default {
         userTel: "",
         orderDate: "",
         orderPrice: "",
-        orderCertificate: ""
+        orderCertificate: []
       },
       show: false,
       display: true,
@@ -178,21 +181,22 @@ export default {
     getSupplierCompanyList() {
       this.$store.dispatch("suuply/MerchantList").then(data => {
         if (data.status == 200) {
-          let arr = data.data.result;
-          arr.map((value, key) => {
-            let companyName = value.companyName;
-            let id = value._id;
-            let itemEntity = {
-              companyName,
-              id
-            };
-            this.supplierCompanyList.push(itemEntity);
-          });
+          this.supplierCompanyList = data.data.result;
         }
       });
     },
     getValue(value){
           this.form.buyerCompanyName = value
+    },
+    getSupplierValue(value){
+          this.form.supplierCompanyName = value
+          console.log('ppp  ' + this.form.supplierCompanyName)
+    },
+    getCatalogValue(value){
+          this.form.productCatalog = value
+    },
+    getProductValue(value){
+          this.form.product = value
     },
     getBuyerList(){
           this.$store.dispatch('buyers/GetBuyer').then((data) => {
@@ -205,52 +209,21 @@ export default {
     getProductList() {
       this.$store.dispatch("suuply/GetProductList").then(data => {
         if (data.status == 200) {
-          let arr = data.data.result;
-          arr.map((value, key) => {
-            let productName = value.productName;
-            let id = value._id;
-            let itemEntity = {
-              id,
-              productName
-            };
-            this.productList.push(itemEntity);
-          });
+          this.productList = data.data.result;
         }
       });
     },
     getCatalogList() {
       this.$store.dispatch("suuply/GetProductCatalog").then(data => {
         if (data.status == 200) {
-          let arr = data.data.result;
-          arr.map((value, key) => {
-            let catalogName = value.catalogName;
-
-            let id = value._id;
-            let itemEntity = {
-              id,
-              catalogName
-            };
-            console.log("catalogname +++" + itemEntity);
-            this.catalogNameList.push(itemEntity);
-          });
+          this.catalogNameList = data.data.result;
         }
       });
     },
     getBrandNameList() {
       this.$store.dispatch("suuply/GetProductCatalog").then(data => {
         if (data.status == 200) {
-          let arr = data.data.result;
-          arr.map((value, key) => {
-            let catalogName = value.catalogName;
-
-            let id = value._id;
-            let itemEntity = {
-              id,
-              catalogName
-            };
-            console.log("catalogname +++" + itemEntity);
-            this.catalogNameList.push(itemEntity);
-          });
+          this.catalogNameList = data.data.result;
         }
       });
     },
@@ -260,6 +233,7 @@ export default {
       this.form = {
         id: null,
         orderNo: "",
+        product:'',
         productCatalog: "",
         productNum: "",
         supplierCompanyName: "",
@@ -269,7 +243,7 @@ export default {
         userTel: "",
         orderDate: "",
         orderPrice: "",
-        orderCertificate: ""
+        orderCertificate: []
       };
 
       this.title = "新增";
@@ -285,37 +259,33 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
             const orderNo = this.form.orderNo;
-		const productCatalog = this.form.productCatalog == null || this.form.productCatalog == undefined ? this.form.productCatalog : '';
-		const productNum = this.form.productNum;
-		const buyerCompanyName = this.form.buyerCompanyName == null || this.form.buyerCompanyName == undefined ? this.form.buyerCompanyName : '';
-		const username = this.form.username;
-		const userTel = this.form.userTel;
-		const orderDate = this.form.orderDate;
-		const product = this.form.product == null || this.form.product == undefined ? this.form.product : '';
-		const orderTime = this.form.orderTime;
-		const orderStatus = this.form.orderStatus;
-		const orderPrice = this.form.orderPrice;
-		const orderCertificate = this.form.orderCertificate == null || this.form.orderCertificate == '' ? [] : '';
-		const supplierCompanyName = this.form.supplierCompanyName == null || this.form.supplierCompanyName == undefined ? this.form.supplierCompanyName : '';
+            const orderDate = this.form.orderDate;
+            const orderPrice = this.form.orderPrice;
+            const productNum = this.form.productNum;
+            const username = this.form.username;
+            const userTel = this.form.userTel;
+            const productCatalog = this.form.productCatalog;
+            const product = this.form.product;
+            const buyerCompanyName = this.form.buyerCompanyName;
+            const supplierCompanyName = this.form.supplierCompanyName;
+            const orderStatus = this.form.orderStatus;
+            const orderCertificate = this.form.orderCertificate;
 
           var newForm = {
             orderNo,
-            productCatalog,
+            orderDate,
+            orderPrice,
             productNum,
-            buyerCompanyName,
             username,
             userTel,
-            orderDate,
+            productCatalog,
             product,
-            orderTime,
-            orderStatus,
-            orderPrice,
-            orderCertificate,
-            supplierCompanyName
+            buyerCompanyName,
+            supplierCompanyName,
+            orderStatus
           };
-          console.log("add +++" + newForm);
-          this.$store
-            .dispatch("suuply/AddOrder", newForm)
+          console.log("add order +++" + newForm);
+          this.$store.dispatch("suuply/AddOrder", newForm)
             .then(data => {
               if (data.status == 200) {
                 console.log("saveCatalog ++" + data);
@@ -328,6 +298,7 @@ export default {
                 });
               }
             });
+            this.$parent.getTableList()
         }
       });
     },
