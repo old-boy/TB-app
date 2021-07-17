@@ -32,6 +32,7 @@
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >

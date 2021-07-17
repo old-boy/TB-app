@@ -92,6 +92,18 @@ productRouter.route(`/add`)
         })
     })
 
+    productRouter.route('/del/:id')
+		.delete((req, res) => {
+			var _id = `${req.params.id}`;
+			Product.findById({ _id }).then((doc) => {
+			    if (!doc) {
+				  res.status(400).json({ message: `${doc} 不存在` })
+			    } else {
+                    Product.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+			    }
+			})
+		  })
+
 //统计某个产品分类下的产品数量
 productRouter.route('/total')
 .get((req,res) => {

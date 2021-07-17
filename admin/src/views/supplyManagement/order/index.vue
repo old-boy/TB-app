@@ -20,8 +20,8 @@
       <el-table-column prop="orderNo" label="订单编号"> </el-table-column>
       <el-table-column prop="productCatalog.catalogName" label="商品分类"></el-table-column>
       <el-table-column prop="productNum" label="商品数量"></el-table-column>
-      <el-table-column prop="supplier.supplierCompanyName" label="供应商"></el-table-column>
-      <el-table-column prop="buyerCompanyName" label="采购商"></el-table-column>
+      <el-table-column prop="business.companyName" label="供应商"></el-table-column>
+      <el-table-column prop="caigou.buyerCompanyName" label="采购商"></el-table-column>
       <el-table-column prop="username" label="收货人"></el-table-column>
       <el-table-column prop="orderStatus" label="订单状态">
         <template slot-scope="scope">
@@ -36,6 +36,7 @@
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -82,7 +83,28 @@ export default {
           })
     },
     editModal() {},
-    removeModal() {}
+    removeModal(index,row) {
+      this.id = row._id
+      var data = this.id
+      this.$confirm('是否确认要删除?', '提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      })
+      .then( async () => {
+                await this.$store.dispatch('suuply/DelOrder',data)
+                this.getTableList()
+                this.$message({
+                    type:'success',
+                    message:'删除成功'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
+    }
   }
 };
 </script>

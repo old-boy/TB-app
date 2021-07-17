@@ -22,13 +22,13 @@ const orderSchema = new Schema({
         type: ObjectId,
         ref: 'Product' //商品名称
     },
-    buyer:{
+    caigou:{
         type: ObjectId,
         ref: 'Caigou' //采购商
     },
     business:{
         type: ObjectId,
-        ref: 'Supplier' //供应商
+        ref: 'Business' //供应商
     },
     orderStatus:Boolean, //订单状态
     // orderCertificate:Array,//交易凭证

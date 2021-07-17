@@ -77,6 +77,18 @@ productCatalogRouter.route('/:id')
         })
     })
 
+    productCatalogRouter.route('/del/:id')
+		.delete((req, res) => {
+			var _id = `${req.params.id}`;
+			ProductCatalog.findById({ _id }).then((doc) => {
+			    if (!doc) {
+				  res.status(400).json({ message: `${doc} 不存在` })
+			    } else {
+				ProductCatalog.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+			    }
+			})
+		  })
+
 
 //根据 id 更新数据
 // router.post('/update/:id',(req,res,next) => {

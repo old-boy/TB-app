@@ -11,7 +11,7 @@ orderRouter.route(`/`)
 		.populate('product', 'productName productTotal')
 		.populate('productCatalog', 'catalogName')
 		.populate('business', 'companyName')
-		.populate('buyer','buyerCompanyName')
+		.populate('caigou','buyerCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {
@@ -40,12 +40,11 @@ orderRouter.route(`/add`)
 		const userTel = req.body.userTel;
 		const productCatalog = req.body.productCatalog;
 		const product = req.body.product;
-		const buyerCompanyName = req.body.buyerCompanyName;
-		const supplierCompanyName = req.body.supplierCompanyName;
+		const caigou = req.body.caigou;
+		const business = req.body.business;
 		const orderStatus = req.body.orderStatus;
 		const orderCertificate = req.body.orderCertificate;
 
-		console.log('orderEntity  ===='  + buyerCompanyName )
 		Order.findOne({orderNo:req.body.orderNo}).then((doc)　=> {
 			if(doc){
 				res.status(400).json({ message: "巳存在" }).send(doc)
@@ -55,7 +54,7 @@ orderRouter.route(`/add`)
 					orderNo,
 					productCatalog,
 					productNum,
-					buyerCompanyName,
+					caigou,
 					username,
 					userTel,
 					product,
@@ -63,7 +62,7 @@ orderRouter.route(`/add`)
 					orderPrice,
 					orderStatus,
 					orderCertificate,
-					supplierCompanyName
+					business
 				  };
 		  
 				  let orderEntity = new Order(newOrder)
@@ -86,6 +85,17 @@ orderRouter.route(`/add`)
 		})
 	})
 
+	orderRouter.route('/del/:id')
+		.delete((req, res) => {
+			var _id = `${req.params.id}`;
+			Order.findById({ _id }).then((doc) => {
+			    if (!doc) {
+				  res.status(400).json({ message: `${doc} 不存在` })
+			    } else {
+				Order.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+			    }
+			})
+		  })
 // router.post('/update/:id',(req,res,next) => {
 // 	var _id = `${req.params.id}`;
 // 	Order.updateOne({ _id }, req.body, (err, order) => {

@@ -26,6 +26,7 @@
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -75,7 +76,28 @@ export default {
       this.$refs.edit.add()
     },
     editModal() {},
-    removeModal() {}
+    removeModal(index,row) {
+      this.id = row._id
+      var data = this.id
+      this.$confirm('是否确认要删除?', '提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      })
+      .then( async () => {
+                await this.$store.dispatch('suuply/DelBrand',data)
+                this.getDataList()
+                this.$message({
+                    type:'success',
+                    message:'删除成功'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
+    }
   }
 };
 </script>

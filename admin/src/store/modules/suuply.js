@@ -10,7 +10,11 @@ import {
       getOrderList,
       addOrder,
       getBrand,
-      addBrand
+      addBrand,
+      delBrand,
+      delProduct,
+      delProductCatalgo,
+      delOrder
 } from '@/api/suuply'
 
 const suuply = {
@@ -75,10 +79,30 @@ const suuply = {
                         })
                   })
             },
+            //删除产品分类
+            DelProductCatalgo({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delProductCatalgo(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
             //查询产品
             GetProductList({commit}){
                   return new Promise((reslove, reject) => {
                         getProductList().then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //删除产品
+            DelProduct({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delProduct(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)
@@ -116,6 +140,16 @@ const suuply = {
                         })
                   })
             },
+            // 删除订单
+            DelOrder({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delOrder(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
             // 查询品牌
             GetBrand({commit}){
                   return new Promise((reslove, reject) => {
@@ -130,6 +164,16 @@ const suuply = {
             AddBrand({commit},data){
                   return new Promise((reslove, reject) => {
                         addBrand(data).then(response => {
+                              reslove(response)
+                        }).catch(err => {
+                              reject(err)
+                        })
+                  })
+            },
+            //删除品牌
+            DelBrand({ commit }, data){
+                  return new Promise((reslove, reject) => {
+                        delBrand(data).then(response => {
                               reslove(response)
                         }).catch(err => {
                               reject(err)

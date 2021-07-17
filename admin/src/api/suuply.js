@@ -41,13 +41,7 @@ export function addMerchant(data) {
       })
 }
 
-// 删除商户
-export function delMerchant(data) {
-      return request({
-        url:`/business/del/${data}`,
-        method: 'delete'
-      })
-}
+
 
 // 获取产品分类列表
 export function getProductCatalog(){
@@ -108,3 +102,43 @@ export function addOrder(data) {
       })
 }
 
+
+// 删除商户
+export function delMerchant(data) {
+      return request({
+        url:`/business/del/${data}`,
+        method: 'delete'
+      })
+}
+
+// 删除品牌
+export function delBrand(data) {
+      return request({
+        url:`/brand/del/${data}`,
+        method: 'delete'
+      })
+}
+
+// 删除产品
+export function delProduct(data) {
+      return request({
+        url:`/product/del/${data}`,
+        method: 'delete'
+      })
+}
+
+// 删除产品分类
+export function delProductCatalgo(data){
+      return request({
+            url:`/product/catalog/del/${data}`,
+            method: 'delete'
+          })
+}
+
+// 删除订单
+export function delOrder(data){
+      return request({
+            url:`/order/del/${data}`,
+            method: 'delete'
+          })
+}

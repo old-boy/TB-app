@@ -83,29 +83,29 @@
               
               <el-form-item label="供应商">
                 <el-select
-                  v-model="form.supplierCompanyName"
+                  v-model="form.business"
                   placeholder="请选择供应商"
                 >
                   <el-option
-                    v-for="item in supplierCompanyList"
+                    v-for="item in businessCompanyList"
                     :key="item.id"
                     :label="item.companyName"
                     :value="item._id"
-                    @change="getSupplierValue"
+                    @change="getBusinessValue"
                   />
                 </el-select>
               </el-form-item>
               <el-form-item label="采购商">
                 <el-select
-                  v-model="form.buyerCompanyName"
+                  v-model="form.caigou"
                   placeholder="请选择采购商"
                 >
                   <el-option
-                  v-for="item in buyerCompanyList"
+                  v-for="item in caiGouCompanyList"
                   :key="item.id"
                   :label="item.buyerCompanyName"
                   :value="item._id"
-                  @change="getValue"
+                  @change="getCaigoValue"
                   />
                 </el-select>
               </el-form-item>
@@ -150,16 +150,16 @@ export default {
       dialogVisible: false,
       loading: false,
       catalogNameList: [],
-      supplierCompanyList: [],
-      buyerCompanyList: [],
+      businessCompanyList: [],
+      caiGouCompanyList: [],
       productList: [],
       form: {
         orderNo: "",
         product:'',
         productCatalog: "",
         productNum: "",
-        supplierCompanyName: "",
-        buyerCompanyName: "",
+        business: "",
+        caigou: "",
         username: "",
         orderStatus: false,
         userTel: "",
@@ -178,19 +178,18 @@ export default {
     handleClose(done) {
       this.dialogVisible = false;
     },
-    getSupplierCompanyList() {
+    getBusinessCompanyList() {
       this.$store.dispatch("suuply/MerchantList").then(data => {
         if (data.status == 200) {
-          this.supplierCompanyList = data.data.result;
+          this.businessCompanyList = data.data.result;
         }
       });
     },
-    getValue(value){
-          this.form.buyerCompanyName = value
+    getCaigoValue(value){
+          this.form.caigou = value
     },
-    getSupplierValue(value){
-          this.form.supplierCompanyName = value
-          console.log('ppp  ' + this.form.supplierCompanyName)
+    getBusinessValue(value){
+          this.form.business = value
     },
     getCatalogValue(value){
           this.form.productCatalog = value
@@ -198,11 +197,11 @@ export default {
     getProductValue(value){
           this.form.product = value
     },
-    getBuyerList(){
-          this.$store.dispatch('buyers/GetBuyer').then((data) => {
+    getCaigouList(){
+          this.$store.dispatch('caigou/GetCaigou').then((data) => {
                 if(data.status == 200){
-                this.loadingFlag = false
-                this.buyerCompanyList = data.data.result
+                      this.loadingFlag = false
+                      this.caiGouCompanyList = data.data.result
                 }
           })
     },
@@ -220,13 +219,7 @@ export default {
         }
       });
     },
-    getBrandNameList() {
-      this.$store.dispatch("suuply/GetProductCatalog").then(data => {
-        if (data.status == 200) {
-          this.catalogNameList = data.data.result;
-        }
-      });
-    },
+    
     add() {
       this.dialogVisible = true;
       this.disable = false;
@@ -236,8 +229,8 @@ export default {
         product:'',
         productCatalog: "",
         productNum: "",
-        supplierCompanyName: "",
-        buyerCompanyName: "",
+        business: "",
+        caigou: "",
         username: "",
         orderStatus: false,
         userTel: "",
@@ -248,9 +241,9 @@ export default {
 
       this.title = "新增";
       this.getCatalogList();
-      this.getSupplierCompanyList();
+      this.getBusinessCompanyList();
       this.getProductList();
-      this.getBuyerList()
+      this.getCaigouList()
       // this.getBrandNameList()
     },
     edit() {},
@@ -266,8 +259,8 @@ export default {
             const userTel = this.form.userTel;
             const productCatalog = this.form.productCatalog;
             const product = this.form.product;
-            const buyerCompanyName = this.form.buyerCompanyName;
-            const supplierCompanyName = this.form.supplierCompanyName;
+            const caigou = this.form.caigou;
+            const business = this.form.business;
             const orderStatus = this.form.orderStatus;
             const orderCertificate = this.form.orderCertificate;
 
@@ -280,15 +273,13 @@ export default {
             userTel,
             productCatalog,
             product,
-            buyerCompanyName,
-            supplierCompanyName,
+            caigou,
+            business,
             orderStatus
           };
-          console.log("add order +++" + newForm);
           this.$store.dispatch("suuply/AddOrder", newForm)
             .then(data => {
               if (data.status == 200) {
-                console.log("saveCatalog ++" + data);
                 this.loading = false;
                 this.dialogVisible = false;
                 this.$message({
