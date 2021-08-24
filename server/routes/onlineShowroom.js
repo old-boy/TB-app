@@ -1,25 +1,27 @@
+/*
+ * @Author: your name
+ * @Date: 2021-05-29 20:11:32
+ * @LastEditTime: 2021-08-25 02:25:31
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \TB-app\server\routes\onlineShowroom.js
+ */
 var express = require('express')
-var router = express.Router()
+var onlineRoomRouter = express.Router()
 
 var OnlineShowroom = require('../app/models/onlineShowroom')
 
-var { handleError } = require('../public/util/handleError')
-var { signRequired, adminRole } = require('../middleware/auth.js')
-
-router.use(signRequired)
-
-//查询
-router.get('/',(req,res,next) => {
-    OnlineShowroom.find({})
-		.sort({'_id':1})
+onlineRoomRouter.route(`/`)
+	.get((req,res) => {
+		OnlineShowroom.find({})
+		.sort({'_id':-1})
 		.limit(10)
+		.populate('caigou')
 		.exec()
-		.populate('Users', 'supplierStaffName')
-		.populate('Product', 'productNum')
 		.then((data) => {
 			if (data) {
 				res.json({
-					status: '1',
+					status: '200',
 					msg: '',
 					result: data
 				})
@@ -31,142 +33,60 @@ router.get('/',(req,res,next) => {
 				})
 			}
 		})
-})
-
-//根据ID查询
-router.get('/:id',(req,res,next) => {
-	const _id = `${req.params.id}`;
-	console.log('id  ' + _id)
-	OnlineShowroom.findById({_id})
-		.exec(function (err, data) {   
-			if (err) {   
-			  return res.status(400).send({   
-				message: '不存在',   
-				result: {}   
-			  });   
-			} else {
-			  res.jsonp({   
-				result: data   
-			  })  
-			}
 	})
-})
 
-//根据 id 更新数据
-router.post('/update/:id',(req,res,next) => {
-	var _id = `${req.params.id}`;
-	OnlineShowroom.updateOne({ _id }, req.body, (err, data) => {
-		if (err) {
-			res.status(500).json({ error: err });
-		} else {
-			res.status(200).send(data);
-		}
-	})
-})
+onlineRoomRouter.route(`/add`)
+	.post((req,res) => {
+		const showroomName = req.body.showroomName;
+		const showroomThumbnail = req.body.showroomThumbnail;
+		const showroomStatus = req.body.showroomStatus;
+		const supplierStaffName = req.body.supplierStaffName;
+		const productNum = req.body.productNum;
 
-
-//新增
-router.post('/add',(req,res,next) => {
-    const showroomName = req.body.showroomName;
-	const showroomThumbnail = req.body.showroomThumbnail;
-    const showroomStatus = req.body.showroomStatus;
-    const supplierStaffName = req.body.supplierStaffName;
-    const productNum = req.body.productNum;
-
-    OnlineShowroom.findOne({showroomName:req.body.showroomName}).then((data)　=> {
-        if(data){
-            return res.status(400).json(
-				{
-					status: '0',
-					msg: '已存在',
-					result: ''
-				}
-			);
-        }else{
-            let newOnlineShowroom = {
-                showroomName,
-				showroomThumbnail,
-                showroomStatus,
-                supplierStaffName,
-                productNum
-            };
-
-            let onlineShowroomEntity = new Chat(newOnlineShowroom)
-            onlineShowroomEntity.save(err => {
-                if (err) {
-                    res.json({
-                        status: '0',
-                        msg: err.message,
-                        result: ''
-                    })
-                } else {
-                    res.json({
-                        status: '1',
-                        msg: '创建成功',
-                        result: ''
-                    })
-                }
-            })
-        }
-    })
-})
-
-//删除某一个
-router.delete('/del/:id',(req,res,next) => {
-	const id = `${req.params.id}`;
-	OnlineShowroom.deleteOne({ _id: id }).then((data) => {
-		// console.log(user)
-		console.log(data)
-		if(data){
-			res.status(200).json({
-				status: '1',
-				msg: '删除成功',
-				result: ''
-			})
-		}else{
-			res.status(400).json({
-				status: '0',
-				msg: '不存在',
-				result: ''
-			})
-		}
-	})
-})
-
-
-
-
-
-
-
-
-
-
-
-//查询总数
-router.get('/total',(req,res,next) => {
-	OnlineShowroom.find()
-		.count()
-		.then((total) => {
-			console.log('total  ' + total)
-			if(total > 0){
-				res.json({
-					status: '1',
-					msg: '',
-					total: total
-				})
-			} else {
-				res.json({
-					status: '0',
-					msg: '不存在',
-					total: 0
-				})
+		OnlineShowroom.findOne({showroomName:req.body.showroomName}).then((doc)　=> {
+			if(doc){
+				res.status(400).json({ message: "巳存在" }).send(doc)
+			}else{
+				
+				let newRoom = {
+					showroomName,
+					showroomThumbnail,
+					showroomStatus,
+					supplierStaffName,
+					productNum
+				  };
+		  
+				  let roomEntity = new OnlineShowroom(newRoom)
+				  roomEntity.save(err => {
+					if (err) {
+					    res.json({
+						  status: '0',
+						  msg: err.message,
+						  result: ''
+					    })
+					} else {
+					    res.json({
+						  status: '200',
+						  msg: '创建成功',
+						  result: ''
+					    })
+					}
+				  })
 			}
 		})
+	})
 
-})
+	onlineRoomRouter.route('/del/:id')
+		.delete((req, res) => {
+			var _id = `${req.params.id}`;
+			Order.findById({ _id }).then((doc) => {
+			    if (!doc) {
+				  res.status(400).json({ message: `${doc} 不存在` })
+			    } else {
+				Order.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+			    }
+			})
+		  })
 
 
-
-
-module.exports = router
+module.exports = onlineRoomRouter

@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-05-29 19:51:54
+ * @LastEditTime: 2021-08-25 02:22:04
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \TB-app\server\app\schemas\onlineShowroom.js
+ */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -5,20 +13,14 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const onlineShowroomSchema = new Schema({
-    showroomName:{
-        unique: true,
-        type: String
-    },
+    showroomName:String,
     showroomThumbnail: String,
-    showroomStatus:String,
+    showroomStatus:Boolean,
     operator:{
         type: ObjectId,
-        ref: 'Users' //操作人
+        ref: 'CaigouInfo' //操作人
     },
-    productNum:{
-        type: ObjectId,
-        ref: 'Product'
-    },
+    productNum:Number,
     createdAt: {
         type: Date,
         defalut: Date.now()

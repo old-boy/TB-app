@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-06-12 22:07:19
+ * @LastEditTime: 2021-08-25 02:56:36
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit 
+ * @FilePath: \TB-app\admin\src\router\index.js
+ */
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -9,6 +17,8 @@ import Layout from '@/layout'
 import supplyRouter from './modules/supplyManagement'
 import buyerRouter from './modules/buyer'
 import platformRouter from './modules/platformManagement'
+import chatRouter from './modules/chat'
+import appApi from './modules/appApi'
 // import tradeSpaceRouter from './modules/tradeSpace'
 // import applicationRouter from './modules/applicationManagement'
 
@@ -73,6 +83,8 @@ export const constantRoutes = [
   supplyRouter,
   buyerRouter,
   platformRouter,
+  chatRouter,
+  appApi,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

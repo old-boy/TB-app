@@ -1,16 +1,16 @@
 <!--
  * @Author: your name
- * @Date: 2021-06-13 13:09:28
- * @LastEditTime: 2021-08-25 02:17:31
+ * @Date: 2021-08-25 02:31:54
+ * @LastEditTime: 2021-08-25 02:41:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \TB-app\admin\src\views\platformManagement\features\onlineShowroom\index.vue
+ * @FilePath: \TB-app\admin\src\views\chat\customer\index.vue
 -->
 <template>
-  <div class="onlineShowroom app-container">
+  <div class="carousel app-container">
     <el-row class="top-options">
       <el-col :span="12" class="title">
-        线上展厅
+        自动回复
       </el-col>
       <el-col :span="1" :offset="10" class="options">
         <el-button @click="addModal" type="success" size="mini">添加</el-button>
@@ -25,23 +25,24 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="showroomName" label="标题"> </el-table-column>
+      <el-table-column prop="title" label="关键字">
+      </el-table-column>
       <el-table-column
-        prop="showroomThumbnail"
-        label="缩略图"
+        prop="thumbnail"
+        label="回复内容"
       ></el-table-column>
       <el-table-column
-        prop="showroomStatus"
-        label="状态"
+        prop="position"
+        label="优先级"
       ></el-table-column>
-      <el-table-column prop="productNum" label="产品数量"></el-table-column>
-      <el-table-column prop="operator" label="操作人"></el-table-column>
+      <el-table-column prop="url" label="是否启用"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -60,7 +61,7 @@
 <script>
 import Edit from './components/edit.vue'
 export default {
-  name: "OnlineShowroom",
+  name: "AutoReply",
   components:{
     Edit
   },
@@ -71,24 +72,12 @@ export default {
     };
   },
   created() {
-    this.getTableList()
   },
   methods: {
     addModal() {
       this.$refs.edit.add()
     },
-    getTableList(){
-      this.loadingFlag = true
-      this.$store.dispatch('platform/GetOnLineRoom').then((data) => {
-        console.log('data  +++' + data)
-            if(data.status == 200){
-              this.loadingFlag = false
-              this.tableData = data.data.result
-            }
-          })
-    },
     editModal() {},
-    removeModal() {}
   }
 };
 </script>
