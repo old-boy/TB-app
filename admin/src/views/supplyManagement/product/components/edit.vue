@@ -54,7 +54,7 @@
                               </el-switch>
                         </el-form-item>
                         <el-form-item label="商品主图">
-                             <Upload ref="upload" v-model="form.productMainPicture" />
+                             <Upload ref="upload" v-model="form.productMainPicture" :file="file"  />
                         </el-form-item>
                   </el-form>
                   <span slot="footer">
@@ -81,6 +81,7 @@ export default {
                   loading: false,
                   catalogNameList:[],
                   brandNameList:[],
+                  file:'',
                   form:{
                         productName:'',
                         productCatalog:'',
@@ -179,7 +180,7 @@ export default {
                         if(valid){
                               let productName = this.form.productName
                               let productCatalog = this.form.productCatalog
-                              let productMainPicture = this.form.productMainPicture
+                              let productMainPicture = this.refs.upload
                               let productPrice = this.form.productPrice
                               let productTotal = this.form.productTotal
                               let productSalesTotal = this.form.productSalesTotal

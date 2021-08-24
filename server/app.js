@@ -142,7 +142,7 @@ app.use('/space',spaces)
 app.use('/chat',chats)
 app.use('/customer',customers)
 app.use('/online/showroom',onlineShowrooms)
-app.use('/carousel',carousels)
+app.use('/api/carousel',carousels)
 app.use('/api/supplier',suppliersReview)
 app.use('/api/caigou',caigou)
 app.use('/api/caigou/info', caigouInfo)
@@ -177,8 +177,9 @@ app.use(function(err, req, res, next) {
 })
 
 
-
-const server = app.listen(port, '192.168.31.182', () => {
+const ip ='192.168.31.182'
+// const ip ='192.168.51.57'
+const server = app.listen(port, ip, () => {
   const host = server.address().address
   const port = server.address().port
   console.log("server started! 访问地址为 http://%s:%s", host, port)

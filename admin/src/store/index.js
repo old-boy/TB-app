@@ -8,6 +8,7 @@ import tagView from './modules/tagsView'
 import suuply from './modules/suuply'
 import caigou from './modules/caigou'
 import upload from './modules/upload'
+import carousel from './modules/carousel'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
     tagView,
     suuply,
     caigou,
-    upload
+    upload,
+    carousel
   },
   getters
 })

@@ -17,24 +17,33 @@
       style="width: 100%"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="carouselName" label="标题">
+      <el-table-column prop="title" label="标题">
       </el-table-column>
       <el-table-column
-        prop="carouselThumbnail"
+        prop="thumbnail"
         label="缩略图"
       ></el-table-column>
       <el-table-column
-        prop="carouselPosition"
+        prop="position"
         label="跳转位置"
       ></el-table-column>
-      <el-table-column prop="carouselUrl" label="产品链接"></el-table-column>
-      <el-table-column prop="carouselStatus" label="状态"></el-table-column>
+      <el-table-column prop="url" label="产品链接"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template slot-scope="scope">
+          <el-tag
+          :type="scope.row.status === true ? 'success' : 'danger'"
+          disable-transitions>{{scope.row.status === true ? '开' : '关'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="sort" label="序号"></el-table-column>
+      <el-table-column prop="userName" label="操作人"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -63,12 +72,45 @@ export default {
       loadingFlag: false
     };
   },
+  created() {
+    this.getDataList()
+  },
   methods: {
     addModal() {
       this.$refs.edit.add()
     },
+    getDataList(){
+      this.loadingFlag = true
+      this.$store.dispatch('carousel/GetCarousel').then((data) => {
+            if(data.status == 200){
+              this.loadingFlag = false
+              this.tableData = data.data.result
+            }
+          })
+    },
     editModal() {},
-    removeModal() {}
+    removeModal(index,row) {
+      this.id = row._id
+      var data = this.id
+      this.$confirm('是否确认要删除?', '提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      })
+      .then( async () => {
+                await this.$store.dispatch('carousel/DelCarousel',data)
+                this.getDataList()
+                this.$message({
+                    type:'success',
+                    message:'删除成功'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
+    }
   }
 };
 </script>

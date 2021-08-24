@@ -47,6 +47,9 @@
 <script>
   export default {
    name:'Upload',
+   props:{
+     file:[]
+   },
     data() {
       return {
         dialogImageUrl: '',
@@ -74,6 +77,7 @@
         const form = new FormData()// FormData 对象
         form.append('file', fileObj)// 文件对象
         form.append('ishead', this.form.ishead)
+        console.log('upload +++' + form)
         this.$store.dispatch('upload/AddFile', form).then(response => {
             this.fileList = []
             this.$message({

@@ -14,31 +14,25 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const carouselSchema = new Schema({
-    carouselName: {
+    title: {
         unique: true,
         type: String
     },
-    carouselThumbnail:String,
-    carouselUrl:String,
-    carouselPosition:String,
-    carouselStatus:String,
+    thumbnail:String,
+    url:String,
+    position:String,
+    status:Boolean,
+    sort: Number,
+    userName:String,
     createdAt: {
         type: Date,
-        defalut: Date.now()
+        default: Date.now
     },
     updatedAt: {
         type: Date,
-        defalut: Date.now()
+        defalut: Date.now
     }
 }) 
 
-carouselSchema.pre('save', function() {
-    if (this.isNew) {
-        this.createdAt = this.updatedAt = Date.now()
-    } else {
-        this.updatedAt = Date.now()
-    }
-    next()
-})
 
 module.exports = carouselSchema

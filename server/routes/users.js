@@ -307,6 +307,8 @@ router.post('/login', (req, res, next) => {
 							'sessionId': req.session.id
 						}
 					})
+
+					
 				} else {
 					res.json({
 						status: '0',

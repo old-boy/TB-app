@@ -8,39 +8,32 @@
                   class="dialog-box">
                   <span></span>
                   <el-form :model="form" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
-                        <el-form-item label="序号">
-                              <el-input v-model="form.number" placeholder="请输入序号" clearable></el-input>
-                        </el-form-item>
                         <el-form-item label="标题">
                               <el-input v-model="form.title" placeholder="请输入标题" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="跳转位置">
-                             <el-input v-model="form.url" placeholder="请输入跳转位置链接" clearable></el-input>
+                        <el-form-item label="序号">
+                              <el-input v-model="form.sort" placeholder="请输入序号" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label="操作人">
+                              <el-input v-model="form.userName" placeholder="请输入操作人" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label="链接地址">
+                              <el-input v-model="form.url" placeholder="请输入链接地址" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label="轮播位置">
+                             <el-input v-model="form.position" placeholder="请输入位置" clearable></el-input>
                         </el-form-item>
                         <el-form-item label="状态">
                              <el-switch
-                              v-model="form.productStatus"
+                              v-model="form.status"
                               active-color="#13ce66"
                               inactive-color="#ff4949">
                               </el-switch>
                         </el-form-item>
-                        <el-form-item label="操作人">
-                             <el-select
-                                    v-model="form.buyerInfo"
-                                    placeholder="请选择员工"
-                                    ref="selection"
-                                    @change="getValue"
-                              >
-                                    <el-option
-                                    v-for="item in buyerInfoList"
-                                    :key="item._id"
-                                    :label="item.buyerName"
-                                    :value="item._id"
-                                    />
-                              </el-select>
+                        <el-form-item label="轮播图">
+                             <Upload ref="upload" />
                         </el-form-item>
                   </el-form>
-                  
                   <span slot="footer">
                         <el-button size="small" @click="cancel">Cancel</el-button>
                         <el-button :loading="loading" size="small" type="primary" @click="save">Save</el-button>
@@ -51,8 +44,12 @@
 </template>
 
 <script>
+import Upload from './upload.vue'
 export default {
       name:'Edit',
+      components:{
+            Upload
+      },
       data() {
             return {
                   title:'',
@@ -60,13 +57,14 @@ export default {
                   editTitle:'编辑',
                   dialogVisible: false,
                   loading: false,
-                  saveDataList:[],
-                  buyerInfoList:[],
                   form:{
-                        buyerCompanyName:'',
-                        buyerCompanyAddres:'',
-                        buyerCompanyTel:'',
-                        buyerInfo:''
+                        title:'',
+                        thumbnail:'',
+                        url:'',
+                        position:'',
+                        status:false,
+                        sort:'',
+                        userName:''
                   },
                   show: false,
                   display: true,
@@ -87,47 +85,45 @@ export default {
             handleClose(done) {
                   this.dialogVisible = false
             },
-            getValue(value){
-                  this.form.buyerInfo = value
-            },
-            getBuyerInfoList(){
-                  this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
-                        if(data.status == 200){
-                              this.buyerInfoList = data.data.result
-                        }
-                  })
-            },
             add(){
                   this.dialogVisible = true
                   this.disable = false
                   this.form = {
                         id:null,
-                        buyerCompanyName:'',
-                        buyerCompanyAddres:'',
-                        buyerCompanyTel:'',
-                        buyerInfo:''
+                        title:'',
+                        thumbnail:'',
+                        url:'',
+                        position:'',
+                        status:false,
+                        sort:'',
+                        userName:''
                   }
                   
                   this.title = this.addTitle
-                  this.getBuyerInfoList()
             },
             edit(){},
             save(){
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let buyerCompanyName = this.form.buyerCompanyName
-                              let buyerCompanyAddres = this.form.buyerCompanyAddres
-                              let buyerCompanyTel = this.form.buyerCompanyTel
-                              let buyerInfo = this.form.buyerInfo
+                              const title = this.form.title
+                              const thumbnail = this.form.thumbnail
+                              const url = this.form.url
+                              const position = this.form.position
+                              const status = this.form.status
+                              const sort = this.form.sort
+                              const userName = this.form.userName
                              
                               var newForm = {
-                                    buyerCompanyName,
-                                    buyerCompanyAddres,
-                                    buyerCompanyTel,
-                                    buyerInfo
+                                    title,
+                                    thumbnail,
+                                    url,
+                                    position,
+                                    status,
+                                    sort,
+                                    userName
                               }
-                              this.$store.dispatch('buyers/AddBuyer',newForm).then((data) => {
+                              this.$store.dispatch('carousel/AddCarousel',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false
                                           this.dialogVisible = false
@@ -138,7 +134,7 @@ export default {
                                           })
                                     }
                               })
-                              this.$parent.getBuyerList()
+                              this.$parent.getDataList()
                         }
                   })
             },
