@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-06-13 13:09:28
- * @LastEditTime: 2021-08-25 02:17:31
+ * @LastEditTime: 2021-08-26 00:32:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \TB-app\admin\src\views\platformManagement\features\onlineShowroom\index.vue
@@ -33,15 +33,22 @@
       <el-table-column
         prop="showroomStatus"
         label="状态"
-      ></el-table-column>
+      >
+      <template slot-scope="scope">
+          <el-tag
+          :type="scope.row.showroomStatus === true ? 'success' : 'danger'"
+          disable-transitions>{{scope.row.showroomStatus === true ? '开' : '关'}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="productNum" label="产品数量"></el-table-column>
-      <el-table-column prop="operator" label="操作人"></el-table-column>
+      <el-table-column prop="caigou" label="操作人"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
+            disabled
             @click="editModal(scope.$index, scope.row)"
             >编辑</el-button
           >
@@ -88,7 +95,28 @@ export default {
           })
     },
     editModal() {},
-    removeModal() {}
+    removeModal(index,row) {
+      this.id = row._id
+      var data = this.id
+      this.$confirm('是否确认要删除?', '提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      })
+      .then( async () => {
+                await this.$store.dispatch('platform/DelOnLineRoom',data)
+                this.getTableList()
+                this.$message({
+                    type:'success',
+                    message:'删除成功'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
+    }
   }
 };
 </script>

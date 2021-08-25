@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-05-29 20:11:32
- * @LastEditTime: 2021-08-25 02:25:31
+ * @LastEditTime: 2021-08-26 00:30:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \TB-app\server\routes\onlineShowroom.js
@@ -16,7 +16,7 @@ onlineRoomRouter.route(`/`)
 		OnlineShowroom.find({})
 		.sort({'_id':-1})
 		.limit(10)
-		.populate('caigou')
+		.populate('caigou','buyerCompanyName')
 		.exec()
 		.then((data) => {
 			if (data) {
@@ -40,7 +40,7 @@ onlineRoomRouter.route(`/add`)
 		const showroomName = req.body.showroomName;
 		const showroomThumbnail = req.body.showroomThumbnail;
 		const showroomStatus = req.body.showroomStatus;
-		const supplierStaffName = req.body.supplierStaffName;
+		const caigou = req.body.caigou;
 		const productNum = req.body.productNum;
 
 		OnlineShowroom.findOne({showroomName:req.body.showroomName}).then((doc)　=> {
@@ -52,7 +52,7 @@ onlineRoomRouter.route(`/add`)
 					showroomName,
 					showroomThumbnail,
 					showroomStatus,
-					supplierStaffName,
+					caigou,
 					productNum
 				  };
 		  
@@ -79,11 +79,11 @@ onlineRoomRouter.route(`/add`)
 	onlineRoomRouter.route('/del/:id')
 		.delete((req, res) => {
 			var _id = `${req.params.id}`;
-			Order.findById({ _id }).then((doc) => {
+			OnlineShowroom.findById({ _id }).then((doc) => {
 			    if (!doc) {
 				  res.status(400).json({ message: `${doc} 不存在` })
 			    } else {
-				Order.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
+				OnlineShowroom.deleteOne({ _id }).then(doc => res.status(200).json({ message: "删除成功" })).catch(err => { console.log(err) })
 			    }
 			})
 		  })

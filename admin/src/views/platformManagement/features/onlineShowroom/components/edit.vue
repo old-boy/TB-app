@@ -26,7 +26,7 @@
                         </el-form-item>
                         <el-form-item label="操作人">
                              <el-select
-                                    v-model="form.operator"
+                                    v-model="form.caigou"
                                     placeholder="请选择员工"
                                     ref="selection"
                                     @change="getValue"
@@ -66,7 +66,7 @@ export default {
                         showroomName:'',
                         showroomThumbnail:'',
                         showroomStatus:false,
-                        operator:'',
+                        caigou:'',
                         productNum:''
                   },
                   show: false,
@@ -106,7 +106,7 @@ export default {
                         showroomName:'',
                         showroomThumbnail:'',
                         showroomStatus:false,
-                        operator:'',
+                        caigou:'',
                         productNum:''
                   }
                   
@@ -121,16 +121,17 @@ export default {
                               let showroomName = this.form.showroomName
                               let showroomThumbnail = this.form.showroomThumbnail
                               let showroomStatus = this.form.showroomStatus
-                              let operator = this.form.operator
+                              let caigou = this.form.caigou
                               let productNum = this.form.productNum
                              
                               var newForm = {
                                     showroomName,
                                     showroomThumbnail,
                                     showroomStatus,
-                                    operator,
+                                    caigou,
                                     productNum
                               }
+                              console.log('room  ' + newForm)
                               this.$store.dispatch('platform/AddOnLineRoom',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false

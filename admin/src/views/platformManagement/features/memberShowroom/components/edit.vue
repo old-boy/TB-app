@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-07-11 11:31:50
+ * @LastEditTime: 2021-08-25 23:24:43
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \TB-app\admin\src\views\platformManagement\features\memberShowroom\components\edit.vue
+-->
 <template>
       <div class="edit-dialog">
             <el-dialog
@@ -8,31 +16,31 @@
                   class="dialog-box">
                   <span></span>
                   <el-form :model="form" ref="form" :rules="rules" label-width="80px" :inline="false" size="normal">
-                        <el-form-item label="序号">
-                              <el-input v-model="form.number" placeholder="请输入序号" clearable></el-input>
+                        <el-form-item label="房间标题">
+                              <el-input v-model="form.showroomName" placeholder="请输入房间名称" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="标题">
-                              <el-input v-model="form.title" placeholder="请输入标题" clearable></el-input>
+                        <el-form-item label="房间缩略图">
+                              <el-input v-model="form.showroomThumbnail" placeholder="请输入产品数量" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="跳转位置">
-                             <el-input v-model="form.url" placeholder="请输入跳转位置链接" clearable></el-input>
+                        <el-form-item label="产品数量">
+                              <el-input v-model="form.productNum" placeholder="请输入产品数量" clearable></el-input>
                         </el-form-item>
                         <el-form-item label="状态">
                              <el-switch
-                              v-model="form.productStatus"
+                              v-model="form.showroomStatus"
                               active-color="#13ce66"
                               inactive-color="#ff4949">
                               </el-switch>
                         </el-form-item>
                         <el-form-item label="操作人">
                              <el-select
-                                    v-model="form.buyerInfo"
+                                    v-model="form.caigou"
                                     placeholder="请选择员工"
                                     ref="selection"
                                     @change="getValue"
                               >
                                     <el-option
-                                    v-for="item in buyerInfoList"
+                                    v-for="item in caigouInfoList"
                                     :key="item._id"
                                     :label="item.buyerName"
                                     :value="item._id"
@@ -61,12 +69,13 @@ export default {
                   dialogVisible: false,
                   loading: false,
                   saveDataList:[],
-                  buyerInfoList:[],
+                  caigouInfoList:[],
                   form:{
-                        buyerCompanyName:'',
-                        buyerCompanyAddres:'',
-                        buyerCompanyTel:'',
-                        buyerInfo:''
+                        showroomName:'',
+                        showroomThumbnail:'',
+                        showroomStatus:false,
+                        caigou:'',
+                        productNum:''
                   },
                   show: false,
                   display: true,
@@ -91,9 +100,9 @@ export default {
                   this.form.buyerInfo = value
             },
             getBuyerInfoList(){
-                  this.$store.dispatch('buyers/GetBuyerInfo').then((data) => {
+                  this.$store.dispatch('caigou/GetCaigouInfo').then((data) => {
                         if(data.status == 200){
-                              this.buyerInfoList = data.data.result
+                              this.caigouInfoList = data.data.result
                         }
                   })
             },
@@ -102,10 +111,11 @@ export default {
                   this.disable = false
                   this.form = {
                         id:null,
-                        buyerCompanyName:'',
-                        buyerCompanyAddres:'',
-                        buyerCompanyTel:'',
-                        buyerInfo:''
+                        showroomName:'',
+                        showroomThumbnail:'',
+                        showroomStatus:false,
+                        caigou:'',
+                        productNum:''
                   }
                   
                   this.title = this.addTitle
@@ -116,18 +126,21 @@ export default {
                   this.loading = true
                   this.$refs.form.validate((valid) => {
                         if(valid){
-                              let buyerCompanyName = this.form.buyerCompanyName
-                              let buyerCompanyAddres = this.form.buyerCompanyAddres
-                              let buyerCompanyTel = this.form.buyerCompanyTel
-                              let buyerInfo = this.form.buyerInfo
+                              let showroomName = this.form.showroomName
+                              let showroomThumbnail = this.form.showroomThumbnail
+                              let showroomStatus = this.form.showroomStatus
+                              let caigou = this.form.caigou
+                              let productNum = this.form.productNum
                              
                               var newForm = {
-                                    buyerCompanyName,
-                                    buyerCompanyAddres,
-                                    buyerCompanyTel,
-                                    buyerInfo
+                                    showroomName,
+                                    showroomThumbnail,
+                                    showroomStatus,
+                                    caigou,
+                                    productNum
                               }
-                              this.$store.dispatch('buyers/AddBuyer',newForm).then((data) => {
+                              console.log('room  ' + newForm)
+                              this.$store.dispatch('platform/AddOnLineRoom',newForm).then((data) => {
                                     if(data.status == 200){
                                           this.loading = false
                                           this.dialogVisible = false
@@ -138,7 +151,7 @@ export default {
                                           })
                                     }
                               })
-                              this.$parent.getBuyerList()
+                              this.$parent.getTableList()
                         }
                   })
             },

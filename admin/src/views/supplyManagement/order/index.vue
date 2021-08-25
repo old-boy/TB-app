@@ -75,7 +75,7 @@ export default {
     getTableList(){
       this.loadingFlag = true
       this.$store.dispatch('suuply/GetOrder').then((data) => {
-        console.log('catalog  +++' + data)
+        // console.log('catalog  +++' + data)
             if(data.status == 200){
               this.loadingFlag = false
               this.tableData = data.data.result
